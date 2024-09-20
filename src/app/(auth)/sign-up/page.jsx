@@ -10,10 +10,14 @@ import { signUpFormSchema } from "@/lib/validators"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
+import toast from "react-hot-toast"
+import { signUp } from "@/lib/actions/sign-up.actions"
+import { Loader2 } from "lucide-react"
+import SignUpSuccessModal from "@/components/modals/SignUpSuccessModal"
 
 export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false)
-
+    const [showSuccessDialog, setShowSuccessDialog] = useState(false)
     const form = useForm({
         resolver: zodResolver(signUpFormSchema),
         defaultValues: {
@@ -24,12 +28,22 @@ export default function SignUp() {
         },
     })
 
-    function onSubmit(values) {
-        console.log(values)
+    async function onSubmit(values) {
+        try {
+            const res = await signUp({ values })
+            if (res?.success) {
+                toast.success("Sign Up Success");
+                form.reset()
+                showSuccessDialog(true)
+            }
+        } catch (error) {
+            console.error("Sign Up error: " + error)
+            toast.error(error.message)
+        }
     }
 
     return (
-        <main className="bg-muted"><section className="flex items-center justify-center min-h-screen my-container py-8"><div className="max-w-md w-full bg-background text-foreground p-4 sm:p-6 rounded-lg space-y-4">
+        <main className="bg-muted"><section className="flex items-center justify-center min-h-screen my-container py-8"><div className="max-w-md w-full bg-background text-foreground p-6 rounded-lg space-y-4">
             <div className="pb-2">
                 <h1 className="text-2xl font-semibold">Sign Up to Mh Events</h1>
                 <h3>Create a new account to get started.</h3>
@@ -97,7 +111,12 @@ export default function SignUp() {
                         <Label htmlFor="show_password" className="font-medium">Show Password</Label>
                     </div>
                     <div className="pt-3">
-                        <Button variant="secondary" className="w-full" type="submit">Submit</Button>
+                        <Button disabled={form.formState.isSubmitting} variant="secondary" className="w-full disabled:opacity-90 space-x-2" type="submit">
+                            {form.formState.isSubmitting ?
+                                <><span><Loader2 className="animate-spin" /></span><span>Signing Up</span></> :
+                                "Submit"
+                            }
+                        </Button>
                     </div>
                 </form>
             </Form>
@@ -107,6 +126,8 @@ export default function SignUp() {
             </div>
             <p className="text-center w-full">Or sign in with</p>
             <OauthSignIn />
-        </div></section></main>
+        </div>
+            <SignUpSuccessModal isOpen={showSuccessDialog} setIsOpen={setShowSuccessDialog} />
+        </section></main>
     )
 }
