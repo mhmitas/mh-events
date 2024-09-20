@@ -53,7 +53,7 @@ export default function Hero() {
                                     alt={`Event ${index + 1}`}
                                     className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${index === currentImage ? 'opacity-100' : 'opacity-0'}`}
                                     width={600}
-                                    height={400}
+                                    height={450}
                                 />
                             ))}
                             <div className="absolute inset-0 flex items-center justify-between p-4">
