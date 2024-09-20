@@ -2,80 +2,111 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import OauthSignIn from "@/components/shared/OauthSignIn"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
+import { signUpFormSchema } from "@/lib/validators"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
-import axios from "axios"
-import toast from "react-hot-toast"
-import OauthSignIn from "@/components/shared/OauthSignIn"
 
 export default function SignUp() {
-    const [processing, setProcessing] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
 
-    async function handleRegister(e) {
-        setProcessing(true)
-        try {
-            e.preventDefault()
-            const form = e.target
-            const email = form.email.value
-            const password = form.password.value
-            const name = form.name.value;
+    const form = useForm({
+        resolver: zodResolver(signUpFormSchema),
+        defaultValues: {
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+        },
+    })
 
-            const res = await axios.post('/api/auth/register', { email, password, name })
-            console.log(res.data);
-
-            setProcessing(false)
-        } catch (error) {
-            setProcessing(false)
-            console.error("Register form submission error:", error);
-            toast.error(error.message)
-        }
+    function onSubmit(values) {
+        console.log(values)
     }
 
     return (
-        <main className="bg-muted">
-            <div className="flex items-center justify-center min-h-screen my-container py-4">
-                <Card className="w-full max-w-md">
-                    <CardHeader>
-                        <CardTitle>Sign Up to Mh Events</CardTitle>
-                        <CardDescription>
-                            Create a new account to get started.
-                        </CardDescription>
-                    </CardHeader>
-                    <form onSubmit={handleRegister}>
-                        <CardContent className="space-y-4">
-                            <div className="space-y-1">
-                                <Label htmlFor="name">Name</Label>
-                                <Input id="name" name="name" placeholder="Enter your name" required />
-                            </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    id="email"
-                                    name="email" type="email"
-                                    placeholder="Enter your email"
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="password">Password</Label>
-                                <Input id="password" name="password" type="password" placeholder="Enter your password" required />
-                            </div>
-                        </CardContent>
-                        <CardFooter className="flex flex-col items-start space-y-2">
-                            <Button type="submit" className="w-full">
-                                {processing ? 'Processing...' : "Sign Up"}
-                            </Button>
-                            <div className="text-sm">
-                                Already have an account?{" "}
-                                <Link href="/sign-in" className="text-blue-500 hover:underline">Sign in</Link>
-                            </div>
-                            <p className="text-center w-full">Or sign in with</p>
-                            <OauthSignIn />
-                        </CardFooter>
-                    </form>
-                </Card>
+        <main className="bg-muted"><section className="flex items-center justify-center min-h-screen my-container py-8"><div className="max-w-md w-full bg-background text-foreground p-4 sm:p-6 rounded-lg space-y-4">
+            <div className="pb-2">
+                <h1 className="text-2xl font-semibold">Sign Up to Mh Events</h1>
+                <h3>Create a new account to get started.</h3>
             </div>
-        </main>
+            <Form {...form} className="">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+                    {/* Name */}
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem className="space-y-1">
+                                <FormLabel>Name</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Enter your name" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    {/* Email */}
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem className="space-y-1">
+                                <FormLabel>Email</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Enter your email" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    {/* Name */}
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem className="space-y-1">
+                                <FormLabel>Password</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Create a secure password" {...field} type={showPassword ? "text" : "password"} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="confirmPassword"
+                        render={({ field }) => (
+                            <FormItem className="space-y-1">
+                                <FormLabel>Confirm Password</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Confirm your password" {...field} type={showPassword ? "text" : "password"} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    {/* show password or not */}
+                    <div className="flex items-center space-x-2 pt-1">
+                        <Checkbox onClick={() => setShowPassword(!showPassword)} variant="secondary" id="show_password" />
+                        <Label htmlFor="show_password" className="font-medium">Show Password</Label>
+                    </div>
+                    <div className="pt-3">
+                        <Button variant="secondary" className="w-full" type="submit">Submit</Button>
+                    </div>
+                </form>
+            </Form>
+            <div className="text-sm">
+                Already have an account?{" "}
+                <Link href="/sign-in" className="text-blue-500 hover:underline">Sign in</Link>
+            </div>
+            <p className="text-center w-full">Or sign in with</p>
+            <OauthSignIn />
+        </div></section></main>
     )
 }
