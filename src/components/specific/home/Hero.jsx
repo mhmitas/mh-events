@@ -30,7 +30,7 @@ export default function Hero() {
     }
 
     return (
-        <section className="w-full bg-gradient-to-b from-blue-500/20 to-transparent flex items-center justify-center py-12 lg:py-24 xl:py-28 mb-20">
+        <section className="w-full bg-gradient-to-b from-blue-500/20 to-transparent flex items-center justify-center py-12 lg:py-24 xl:py-28">
             <div className="my-container w-full">
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
                     <div className="flex-1 text-center lg:text-left space-y-4 sm:space-y-6">
@@ -38,7 +38,7 @@ export default function Hero() {
                             Create Unforgettable Events
                         </h1>
                         <p className="text-lg sm:text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto lg:mx-0">
-                            Plan, manage, book, and execute stunning events with ease using our powerful platform.
+                            Host, manage, book, and execute stunning events with ease using our powerful platform.
                         </p>
                         <Button size="lg" variant="secondary" asChild>
                             <Link href="/events">Get Started</Link>

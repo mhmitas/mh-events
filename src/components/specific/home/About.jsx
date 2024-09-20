@@ -7,7 +7,7 @@ export default function AboutSection() {
                 <h2 className="title-1 mb-1">
                     Why Choose Us
                 </h2>
-                <p className="text-foreground/90 text-xl">
+                <p className="text-foreground/90 text-base xl:text-lg">
                     Simplify your event planning process with our powerful and intuitive platform.
                 </p>
             </div>
