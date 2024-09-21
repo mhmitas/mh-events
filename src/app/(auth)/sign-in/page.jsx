@@ -50,6 +50,17 @@ export default function Page() {
     }
 
     return (
+        // TODO: have to remove and create a proper sing in process
+        <main className="bg-muted"><section className="flex items-center justify-center min-h-screen my-container py-8"><div className="max-w-md w-full bg-background text-foreground p-6 rounded-lg space-y-4 shadow-md">
+            <div className="pb-2 text-center">
+                <h1 className="text-2xl font-semibold">Sign In to Mh Events</h1>
+            </div>
+            <OauthSignIn />
+        </div>
+        </section></main>
+    )
+
+    return (
         <main className="bg-muted"><section className="flex items-center justify-center min-h-screen my-container py-8"><div className="max-w-md w-full bg-background text-foreground p-6 rounded-lg space-y-4 shadow-md">
             <div className="pb-2">
                 <h1 className="text-2xl font-semibold">Sign In to Mh Events</h1>

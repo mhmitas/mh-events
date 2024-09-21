@@ -43,7 +43,7 @@ export default function SignUp() {
             toast.error(error.message)
         }
     }
-
+    // TODO: Have to solve sign up email issues
     return (
         <main className="bg-muted"><section className="flex items-center justify-center min-h-screen my-container py-8"><div className="max-w-md w-full bg-background text-foreground p-6 rounded-lg space-y-4 shadow-md">
             <div className="pb-2">

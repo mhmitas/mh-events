@@ -41,10 +41,10 @@ export default async function Navbar() {
                                     </Avatar>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="w-56">
-                                    <DropdownMenuItem className="space-x-2">
+                                    <Link href='/profile'><DropdownMenuItem className="space-x-2">
                                         <User className="size-5" />
                                         <span>My Profile</span>
-                                    </DropdownMenuItem>
+                                    </DropdownMenuItem></Link>
                                     <form
                                         action={async () => {
                                             "use server"

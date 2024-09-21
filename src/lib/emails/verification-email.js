@@ -20,7 +20,7 @@ export async function sendVerificationEmail({ email, verificationToken }) {
             html: await verificationEmailTemplate({ verificationToken, email })
         }
 
-        transport.sendMail(mailOptions, (error, info) => {
+        await transport.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.error("Email sending error: ", error)
                 return false
@@ -30,6 +30,7 @@ export async function sendVerificationEmail({ email, verificationToken }) {
         })
     } catch (error) {
         console.error("Verification email error: " + error);
+        throw error
     }
 }
 
