@@ -15,7 +15,7 @@ import { signInUser } from "@/lib/actions/sign-in.actions"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 
-export default function SignIn() {
+export default function Page() {
     const [showPassword, setShowPassword] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const router = useRouter()

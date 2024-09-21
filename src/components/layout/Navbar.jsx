@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Menu, User } from "lucide-react"
+import { LogOut, LogOutIcon, Menu, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -23,7 +23,7 @@ export default async function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex-shrink-0">
                         <Link href="/" className="text-2xl font-bold text-primary">
-                            EVENTS
+                            MH EVENTS
                         </Link>
                     </div>
                     <div className="hidden md:block">
@@ -34,14 +34,17 @@ export default async function Navbar() {
                     <div className="flex items-center gap-1">
                         {session ?
                             <DropdownMenu>
-                                <DropdownMenuTrigger asChild className="cursor-pointer" >
+                                <DropdownMenuTrigger title="Profile menu" asChild className="cursor-pointer" >
                                     <Avatar>
                                         <AvatarImage src={session?.user?.image} />
                                         <AvatarFallback className="bg-gradient-to-tr from-rose-100 to-blue-100 hover:from-rose-200 hover:to-blue-200">{session?.user?.name[0]}</AvatarFallback>
                                     </Avatar>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="w-56">
-                                    <DropdownMenuItem>My Profile</DropdownMenuItem>
+                                    <DropdownMenuItem className="space-x-2">
+                                        <User className="size-5" />
+                                        <span>My Profile</span>
+                                    </DropdownMenuItem>
                                     <form
                                         action={async () => {
                                             "use server"
@@ -49,7 +52,10 @@ export default async function Navbar() {
                                         }}
                                     >
                                         <DropdownMenuItem asChild>
-                                            <button type="submit" className="w-full">Sign Out</button>
+                                            <button type="submit" className="w-full space-x-2">
+                                                <LogOut className="size-5" />
+                                                <span>Sign Out</span>
+                                            </button>
                                         </DropdownMenuItem>
                                     </form>
                                 </DropdownMenuContent>
@@ -61,7 +67,7 @@ export default async function Navbar() {
                         }
                         <div className="md:hidden flex items-center gap-1">
                             <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
+                                <DropdownMenuTrigger asChild title="Navigation menu">
                                     <Button variant="ghost" size="icon" className="focus-visible:ring-0 focus:ring-0">
                                         <Menu className="h-6 w-6" />
                                         <span className="sr-only">Open menu</span>
