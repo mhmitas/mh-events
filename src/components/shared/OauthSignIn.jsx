@@ -6,7 +6,7 @@ import { signIn } from "next-auth/react"
 const OauthSignIn = () => {
     return (
         <div className='w-full'>
-            <Button onClick={() => signIn("google", { redirect: true, redirectTo: "/" })} variant="outline" type="button" size="lg" className="w-full space-x-2 bg-muted"><FcGoogle className='text-2xl' /><span>Google</span></Button>
+            <Button onClick={() => signIn("google", { redirect: true, redirectTo: "/" })} variant="outline" type="button" size="lg" className="w-full space-x-2"><FcGoogle className='text-2xl' /><span>Google</span></Button>
         </div>
     )
 }
