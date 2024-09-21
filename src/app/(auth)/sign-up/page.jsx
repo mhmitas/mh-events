@@ -34,7 +34,7 @@ export default function SignUp() {
             if (res?.success) {
                 toast.success("Sign Up Success");
                 form.reset()
-                showSuccessDialog(true)
+                setShowSuccessDialog(true)
             }
         } catch (error) {
             console.error("Sign Up error: " + error)
@@ -43,7 +43,7 @@ export default function SignUp() {
     }
 
     return (
-        <main className="bg-muted"><section className="flex items-center justify-center min-h-screen my-container py-8"><div className="max-w-md w-full bg-background text-foreground p-6 rounded-lg space-y-4">
+        <main className="bg-muted"><section className="flex items-center justify-center min-h-screen my-container py-8"><div className="max-w-md w-full bg-background text-foreground p-6 rounded-lg space-y-4 shadow-md">
             <div className="pb-2">
                 <h1 className="text-2xl font-semibold">Sign Up to Mh Events</h1>
                 <h3>Create a new account to get started.</h3>
@@ -58,7 +58,7 @@ export default function SignUp() {
                             <FormItem className="space-y-1">
                                 <FormLabel>Name</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Enter your name" {...field} />
+                                    <Input placeholder="Enter your name" {...field} type="text" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -72,7 +72,7 @@ export default function SignUp() {
                             <FormItem className="space-y-1">
                                 <FormLabel>Email</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Enter your email" {...field} />
+                                    <Input placeholder="Enter your email" {...field} type="email" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

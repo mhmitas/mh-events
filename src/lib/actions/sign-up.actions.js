@@ -5,6 +5,7 @@ import { connectDB } from "../database/mongoose";
 import jwt from "jsonwebtoken"
 import bcryptjs from "bcryptjs";
 import crypto from "crypto"
+import { sendVerificationEmail } from "../emails/verification-email";
 
 export async function signUp({ values }) {
     try {
@@ -17,7 +18,7 @@ export async function signUp({ values }) {
 
         const isExists = await User.exists({ email: email })
         if (isExists) {
-            throw new Error("User already exists")
+            throw new Error("An account with this email already exists.")
         }
 
         // generate a validation token secret
@@ -36,15 +37,17 @@ export async function signUp({ values }) {
         }
         // create a new user
         const user = await User.create({
+            name,
             email,
             password: hashedPassword,
-            name,
             verificationToken,
         });
 
         if (!user) {
             throw new Error("Sign up failed")
         }
+
+        await sendVerificationEmail({ email, verificationToken })
 
         return { success: true }
     } catch (error) {
