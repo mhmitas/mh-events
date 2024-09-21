@@ -4,10 +4,10 @@ import React, { Suspense } from 'react'
 
 const page = () => {
     const search = useSearchParams()
-    const error = search.get("error")
+    const error = search?.get("error")
     return (
         <main className='w-full min-h-screen flex justify-center items-center bg-muted px-6'>
-            <Suspense>
+            <Suspense fallback={<p className='p-4'>Loading feed...</p>}>
                 <div className='bg-background p-6 rounded-lg shadow-lg text-center max-w-xl mx-auto m-2'>
                     <h3 className='text-2xl font-bold'>{error}</h3>
                     <p className='text-lg'>An error occurred during authentication. Please try again.</p>

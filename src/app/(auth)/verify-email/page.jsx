@@ -28,7 +28,7 @@ const Page = () => {
             console.log(res)
             if (res?.success) {
                 router.replace("/sign-in")
-                toast("Your registration is now complete. Please sign in with you email and password")
+                toast.success("Your registration is now complete. Please sign in with you email and password")
                 setProcessing(false)
             }
             if (res?.error) {

@@ -100,7 +100,7 @@ export default function Page() {
                 </form>
             </Form>
             <div>
-                <Link href="/sign-up" className="text-sm">
+                <Link href="/sign-up" className="">
                     Already have an account?{" "}
                     <span className="text-blue-500 hover:underline">Sign Up</span>
                 </Link>
