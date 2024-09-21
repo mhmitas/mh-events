@@ -1,7 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button';
 import { verifyEmail } from '@/lib/actions/sign-up.actions';
-import axios from 'axios';
 import { LoaderCircle } from 'lucide-react';
 import { redirect, useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
@@ -11,8 +10,8 @@ const Page = () => {
     const router = useRouter()
     const [processing, setProcessing] = useState(false)
     const searchParams = useSearchParams()
-    const verificationToken = searchParams.get('verificationToken')
-    const email = searchParams.get('email')
+    const verificationToken = searchParams?.get('verificationToken')
+    const email = searchParams?.get('email')
 
     if (!verificationToken) {
         redirect('/')
@@ -33,6 +32,7 @@ const Page = () => {
             }
             if (res?.error) {
                 console.log(res.error)
+                toast.error(res.error)
                 router.replace("/")
             }
             setProcessing(false)
@@ -40,7 +40,7 @@ const Page = () => {
             toast.error(error.message)
             console.error(error)
             setProcessing(false)
-            router.push("/")
+            router.replace("/")
         }
     }
 

@@ -12,6 +12,9 @@ const page = () => {
                     <h3 className='text-2xl font-bold'>{error}</h3>
                     <p className='text-lg'>An error occurred during authentication. Please try again.</p>
                     {error === "AccessDenied" && <p className='text-start mt-4 p-3 rounded-lg border border-blue-500 font-medium font-mono'><strong>Hints</strong>: If you've signed in using Google, you must continue to sign in with Google. You cannot switch to email and password. Similarly, if you've signed in with an email and password, you cannot sign in using Google.</p>}
+                    <div>
+                        <a href="/"><button className='py-1 px-3 bg-primary text-primary-foreground hover:bg-primary/90 mt-2 rounded-sm'>Home</button></a>
+                    </div>
                 </div>
             </Suspense>
         </main>

@@ -35,6 +35,9 @@ export default function SignUp() {
                 form.reset()
                 setShowSuccessDialog(true)
             }
+            if (res?.error) {
+                toast.error(res.error)
+            }
         } catch (error) {
             console.error("Sign Up error: " + error)
             toast.error(error.message)

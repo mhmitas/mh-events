@@ -11,14 +11,14 @@ export async function signUp({ values }) {
     try {
         const { email, password, name } = values;
         if (!email, !password, !name) {
-            throw new Error("All credentials are required");
+            return { error: "All credentials are required" }
         }
         // connect to database
         await connectDB()
 
         const isExists = await User.exists({ email: email })
         if (isExists) {
-            throw new Error("An account with this email already exists.")
+            return { error: "An account with this email already exists." }
         }
 
         // generate a validation token secret
@@ -33,7 +33,7 @@ export async function signUp({ values }) {
         // hast the password
         const hashedPassword = await bcryptjs.hash(password, 12);
         if (!hashedPassword) {
-            throw new Error("Password related issue happened")
+            return { error: "Password related issue happened" }
         }
         // create a new user
         const user = await User.create({
@@ -45,14 +45,14 @@ export async function signUp({ values }) {
         });
 
         if (!user) {
-            throw new Error("Sign up failed")
+            return { error: "Sign up failed" }
         }
 
         await sendVerificationEmail({ email, verificationToken })
 
         return { success: true }
     } catch (error) {
-        throw new Error(error)
+        throw error
     }
 
 }
@@ -64,14 +64,14 @@ export async function verifyEmail({ email, verificationToken }) {
 
         // check all credentials are in the prop
         if (!email || !verificationToken) {
-            throw new Error("Credentials are missing or invalid")
+            return { error: "Credentials are missing or invalid" }
         }
 
         // find the user with the given email
         const user = await User.findOne({ email }).select("email verificationToken verified")
         // if user not found, throw an error
         if (!user) {
-            throw new Error("User not found")
+            return { error: "User not found" };
         }
         // if the user has already verified, return
         if (user.verified || !user.verificationToken) {
@@ -82,7 +82,7 @@ export async function verifyEmail({ email, verificationToken }) {
             await jwt.verify(verificationToken, user.verificationToken)
         } catch (error) {
             console.log('error: ' + error)
-            throw new Error("Invalid or expired verification token")
+            return { error: "Invalid or expired verification token" };
         }
         // if token is valid, mark the user as verified;
         user.verified = true
