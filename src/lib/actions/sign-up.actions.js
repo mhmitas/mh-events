@@ -28,7 +28,7 @@ export async function signUp({ values }) {
         const verificationToken = jwt.sign(
             { email },
             tokenSecret,
-            { expiresIn: "1d" }
+            { expiresIn: "365d" }
         )
         // hast the password
         const hashedPassword = await bcryptjs.hash(password, 12);
@@ -40,7 +40,7 @@ export async function signUp({ values }) {
             name,
             email,
             password: hashedPassword,
-            verificationToken,
+            verificationToken: tokenSecret,
         });
 
         if (!user) {
@@ -54,4 +54,42 @@ export async function signUp({ values }) {
         throw new Error(error)
     }
 
+}
+
+
+export async function verifyEmail({ email, verificationToken }) {
+    try {
+        await connectDB()
+
+        // check all credentials are in the prop
+        if (!email || !verificationToken) {
+            throw new Error("Credentials are missing or invalid")
+        }
+
+        // find the user with the given email
+        const user = await User.findOne({ email }).select("email verificationToken verified")
+        // if user not found, throw an error
+        if (!user) {
+            throw new Error("User not found")
+        }
+        // if the user has already verified, return
+        if (user.verified || !user.verificationToken) {
+            return { error: "Already verified" }
+        }
+        // if have verification token, verify the token
+        try {
+            await jwt.verify(verificationToken, user.verificationToken)
+        } catch (error) {
+            console.log('error: ' + error)
+            throw new Error("Invalid or expired verification token")
+        }
+        // if token is valid, mark the user as verified;
+        user.verified = true
+        user.verificationToken = undefined;
+        await user.save()
+
+        return { success: true }
+    } catch (error) {
+        throw error
+    }
 }

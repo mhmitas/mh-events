@@ -9,7 +9,7 @@ export default function SignIn() {
     return (
         <main className="bg-muted">
             <div className="flex items-center justify-center min-h-screen my-container py-4">
-                <Card className="w-full max-w-md">
+                <Card className="w-full max-w-md shadow-md">
                     <CardHeader>
                         <CardTitle>Sign In to Mh Events</CardTitle>
                         <CardDescription>
