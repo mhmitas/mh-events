@@ -113,7 +113,7 @@ export default function SignUp() {
                         <Button disabled={form.formState.isSubmitting} variant="secondary" className="w-full disabled:opacity-90 space-x-2" type="submit">
                             {form.formState.isSubmitting ?
                                 <><span><Loader2 className="animate-spin" /></span><span>Signing Up</span></> :
-                                "Sign"
+                                "Sign Up"
                             }
                         </Button>
                     </div>

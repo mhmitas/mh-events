@@ -11,9 +11,14 @@ import { signInFormSchema } from "@/lib/validators"
 import { Loader2 } from "lucide-react"
 import { useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
+import { signInUser } from "@/lib/actions/sign-in.actions"
+import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
 
 export default function SignIn() {
     const [showPassword, setShowPassword] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
+    const router = useRouter()
 
     const form = useForm({
         resolver: zodResolver(signInFormSchema),
@@ -24,10 +29,24 @@ export default function SignIn() {
     })
 
     // 2. Define a submit handler.
-    function onSubmit(values) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    async function onSubmit(values) {
+        try {
+            const res = await signInUser({ email: values.email, password: values.password })
+            console.log(res)
+            if (res?.success) {
+                form.reset()
+                toast.success("Welcome back")
+                setErrorMessage("")
+                router.push("/")
+            }
+            if (res?.error) {
+                console.log(res?.error)
+                setErrorMessage(res.error)
+            }
+        } catch (error) {
+            setErrorMessage(error.message)
+            console.log("Sign in error:", error)
+        }
     }
 
     return (
@@ -36,6 +55,7 @@ export default function SignIn() {
                 <h1 className="text-2xl font-semibold">Sign In to Mh Events</h1>
                 <h3>Enter your email and password to access your account.</h3>
             </div>
+            {errorMessage && <p className="text-destructive">{errorMessage}</p>}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
                     <FormField

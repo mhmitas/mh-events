@@ -27,7 +27,7 @@ const Page = () => {
             const res = await verifyEmail({ email, verificationToken })
             console.log(res)
             if (res?.success) {
-                router.push("/sign-in")
+                router.replace("/sign-in")
                 toast("Your registration is now complete. Please sign in with you email and password")
                 setProcessing(false)
             }

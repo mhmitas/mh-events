@@ -1,21 +1,21 @@
-'use client'
 import Link from "next/link"
 import { Menu, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { NavbarLinks, SmallNavbarLinks } from "../specific/navigation/NavbarLinks"
+import { auth } from "@/auth"
 
-export default function Navbar() {
+export default async function Navbar() {
+
+    const session = await auth()
+    console.log(session);
 
     const navItems = [
         { name: "Home", href: "/" },
         { name: "Create Event", href: "/events/create" },
         { name: "Dashboard", href: "/dashboard" }
     ]
-
-    const pathname = usePathname()
 
     return (
         <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md shadow-sm dark:border-b">
@@ -28,18 +28,7 @@ export default function Navbar() {
                     </div>
                     <div className="hidden md:block">
                         <div className="ml-10 flex items-center space-x-6">
-                            {navItems.map(item => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className={cn(
-                                        "py-1 text-sm font-medium transition-colors border-b-2 border-transparent hover:border-blue-600 rounded-none",
-                                        pathname === item.href && "border-b-2 border-blue-600" // You can change 'blue-500' to any color you prefer
-                                    )}
-                                >
-                                    {item.name}
-                                </Link>
-                            ))}
+                            <NavbarLinks navItems={navItems} />
                         </div>
                     </div>
                     <div className="hidden md:flex items-center gap-4">
@@ -63,13 +52,7 @@ export default function Navbar() {
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="w-56">
-                                {navItems.map(item => (
-                                    <DropdownMenuItem key={item.name} asChild>
-                                        <Link href={item.href} className="w-full">
-                                            {item.name}
-                                        </Link>
-                                    </DropdownMenuItem>
-                                ))}
+                                <SmallNavbarLinks navItems={navItems} />
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>

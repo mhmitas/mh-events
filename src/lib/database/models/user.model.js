@@ -28,6 +28,11 @@ const userSchema = new mongoose.Schema(
             enum: ['user', 'admin'],
             default: 'user'
         },
+        provider: {
+            type: String,
+            enum: ['credentials', 'google', 'facebook', 'github'],
+            required: true,
+        },
         verified: {
             type: Boolean,
             default: false

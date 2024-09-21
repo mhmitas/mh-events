@@ -40,6 +40,7 @@ export async function signUp({ values }) {
             name,
             email,
             password: hashedPassword,
+            provider: "credentials",
             verificationToken: tokenSecret,
         });
 
