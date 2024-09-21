@@ -9,7 +9,7 @@ import { auth, signOut } from "@/auth"
 export default async function Navbar() {
 
     const session = await auth()
-    console.log("Session from navbar:", session);
+    // console.log("Session from navbar:", session);
 
     const navItems = [
         { name: "Home", href: "/" },
