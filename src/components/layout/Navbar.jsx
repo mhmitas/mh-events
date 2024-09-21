@@ -1,15 +1,15 @@
 import Link from "next/link"
 import { Menu, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { NavbarLinks, SmallNavbarLinks } from "../specific/navigation/NavbarLinks"
-import { auth } from "@/auth"
+import { auth, signOut } from "@/auth"
 
 export default async function Navbar() {
 
     const session = await auth()
-    console.log(session);
+    console.log("Session from navbar:", session);
 
     const navItems = [
         { name: "Home", href: "/" },
@@ -31,30 +31,47 @@ export default async function Navbar() {
                             <NavbarLinks navItems={navItems} />
                         </div>
                     </div>
-                    <div className="hidden md:flex items-center gap-4">
-                        <Avatar>
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <Button size="sm" className="space-x-1" asChild>
-                            <Link href="sign-in"><User className="w-5" /><span>Sign In</span></Link>
-                        </Button>
-                    </div>
-                    <div className="md:hidden flex items-center gap-1">
-                        <Button size="sm" className="space-x-1" asChild>
-                            <Link href="sign-in"><User className="w-5" /><span>Sign In</span></Link>
-                        </Button>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                    <Menu className="h-6 w-6" />
-                                    <span className="sr-only">Open menu</span>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-56">
-                                <SmallNavbarLinks navItems={navItems} />
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                    <div className="flex items-center gap-1">
+                        {session ?
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild className="cursor-pointer" >
+                                    <Avatar>
+                                        <AvatarImage src={session?.user?.image} />
+                                        <AvatarFallback className="bg-gradient-to-tr from-rose-100 to-blue-100 hover:from-rose-200 hover:to-blue-200">{session?.user?.name[0]}</AvatarFallback>
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-56">
+                                    <DropdownMenuItem>My Profile</DropdownMenuItem>
+                                    <form
+                                        action={async () => {
+                                            "use server"
+                                            await signOut()
+                                        }}
+                                    >
+                                        <DropdownMenuItem asChild>
+                                            <button type="submit" className="w-full">Sign Out</button>
+                                        </DropdownMenuItem>
+                                    </form>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            :
+                            <Button size="sm" className="space-x-1" asChild>
+                                <Link href="sign-in"><User className="w-5" /><span>Sign In</span></Link>
+                            </Button>
+                        }
+                        <div className="md:hidden flex items-center gap-1">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="focus-visible:ring-0 focus:ring-0">
+                                        <Menu className="h-6 w-6" />
+                                        <span className="sr-only">Open menu</span>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-56">
+                                    <SmallNavbarLinks navItems={navItems} />
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -12,7 +12,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 password: {},
             },
             authorize: async (credentials) => {
-                let user = null
                 try {
                     const { email, password } = credentials;
 
@@ -38,14 +37,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }),
     ],
     callbacks: {
-        async signIn() {
-
+        async signIn({ user, account, profile }) {
+            // console.log("User form sign in callback:", user);
+            if (account.provider === 'credentials') {
+                return true;
+            }
         },
         jwt({ token, user }) {
-
+            if (user) {
+                token.id = user?._id;
+                token.name = user?.name;
+                token.picture = user?.avatar;
+                token.role = user?.role;
+                token.verified = user?.verified;
+            }
+            return token
         },
-        session() {
-
+        session({ session, token }) {
+            if (session) {
+                session.user.id = token?.id;
+                session.user.role = token?.role;
+                session.user.verified = token?.verified;
+            }
+            return session
         }
     }
 })
