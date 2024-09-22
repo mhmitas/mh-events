@@ -10,7 +10,7 @@ export async function createEvent({ userId, event, formData }) {
         await connectDB()
         // verify th user
         const organizer = await User.findById(userId).select("_id")
-        if (!organizer) throw new Error("Couldn't find the organizer.")
+        if (!organizer) return { error: "Couldn't find the organizer." };
 
         // get the thumbnail file from request
         const thumbnail = formData.get('thumbnail')
@@ -43,4 +43,14 @@ export async function createEvent({ userId, event, formData }) {
         throw error
     }
 
+}
+
+export const getEvents = async () => {
+    try {
+        const events = await Event.find().sort({ _id: -1 })
+        if (!events) return { error: "Event not found" };
+        return { success: true, data: JSON.parse(JSON.stringify(events)) }
+    } catch (error) {
+        throw error
+    }
 }
