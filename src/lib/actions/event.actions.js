@@ -46,6 +46,7 @@ export async function createEvent({ userId, event, formData }) {
 }
 
 export const getEvents = async () => {
+    await connectDB()
     try {
         const events = await Event.find().sort({ _id: -1 })
         if (!events) return { error: "Event not found" };
