@@ -17,7 +17,7 @@ const EventSchema = new Schema(
             required: true,
             trim: true,
         },
-        thumbnail: {
+        thumbnailUrl: {
             type: String,
             required: true,
         },

@@ -1,22 +1,36 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { eventFormSchema } from '@/lib/validators'
 import { eventFormDefaultValue } from '@/lib/constants'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from '../../ui/button'
 import { Textarea } from '../../ui/textarea'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
-import { Calendar, DollarSignIcon, Link } from 'lucide-react'
+import { Calendar, DollarSignIcon, ImageIcon, Link } from 'lucide-react'
 import { Checkbox } from '../../ui/checkbox'
 import EventCategoryDropdown from './EventCategoryDropdown'
+import { useDropzone } from 'react-dropzone'
+import toast from 'react-hot-toast'
 
 const EventForm = ({ formType, event }) => {
-    const [thumbnail, setThumbnail] = useState([])
+    const [thumbnailFile, setThumbnailFile] = useState(null)
+    const [thumbnailUrl, setThumbnailUrl] = useState(null)
+
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: { 'image/*': [] },
+        onDrop: acceptedFiles => {
+            if (acceptedFiles?.[0]?.size > (0.5 * 1000000)) {
+                return toast.error("Max thumbnail size 500 KB allowed")
+            }
+            setThumbnailFile(acceptedFiles[0]);
+            setThumbnailUrl(URL.createObjectURL(acceptedFiles[0]))
+        }
+    });
 
     // const initialValues = event && formType === "update" ?
     //     {
@@ -37,6 +51,7 @@ const EventForm = ({ formType, event }) => {
 
     // 2. Define a submit handler.
     function onSubmit(values) {
+        if (!thumbnailFile) return toast.error("Thumbnail is required")
         console.table(values)
     }
 
@@ -98,20 +113,22 @@ const EventForm = ({ formType, event }) => {
                 )}
             />
 
-            <FormField
-                control={form.control}
-                name="thumbnail"
-                render={({ field }) => (
-                    <FormItem className="w-full">
-                        <FormLabel>Thumbnail</FormLabel>
-                        <FormControl className="">
-                            <Input type="file" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )}
-            />
-
+            <div className='-2 border bg-muted/50 rounded-lg'>
+                <div {...getRootProps({ className: 'dropzone' })} className='max-w-lg mx-auto sm:my-2 cursor-pointer' title='Click to select'>
+                    <input {...getInputProps()} type="file" name="thumbnail" />
+                    {thumbnailUrl ?
+                        <div className='rounded-lg overflow-hidden *:w-full aspect-video flex items-center justify-center shadow'>
+                            <img src={thumbnailUrl} alt="thumbnail" />
+                        </div>
+                        :
+                        <div className="flex flex-col items-center justify-center aspect-video border-2 border-dashed hover:bg-muted rounded-lg shadow">
+                            <ImageIcon className="w-12 h-12 text-muted-foreground" />
+                            <p className="mt-2 font-medium">Click or drag photo here to upload thumbnail</p>
+                            <p className='text-xs text-muted-foreground'>Max size 500 KB</p>
+                        </div>
+                    }
+                </div>
+            </div>
 
             <div className="grid md:gap-8 gap-4 grid-cols-1 md:grid-cols-2">
                 <FormField
