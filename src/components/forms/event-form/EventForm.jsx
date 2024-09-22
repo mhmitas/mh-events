@@ -11,18 +11,20 @@ import { Button } from '../../ui/button'
 import { Textarea } from '../../ui/textarea'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
-import { Calendar, DollarSignIcon, ImageIcon, Link } from 'lucide-react'
+import { Calendar, DollarSignIcon, ImageIcon, Link, Loader2 } from 'lucide-react'
 import { Checkbox } from '../../ui/checkbox'
 import EventCategoryDropdown from './EventCategoryDropdown'
 import { useDropzone } from 'react-dropzone'
 import toast from 'react-hot-toast'
+import { createEvent } from '@/lib/actions/event.actions'
 
-const EventForm = ({ formType, event }) => {
+const EventForm = ({ formType, event, userId }) => {
     const [thumbnailFile, setThumbnailFile] = useState(null)
     const [thumbnailUrl, setThumbnailUrl] = useState(null)
 
     const { getRootProps, getInputProps } = useDropzone({
         accept: { 'image/*': [] },
+        maxFiles: 1,
         onDrop: acceptedFiles => {
             if (acceptedFiles?.[0]?.size > (0.5 * 1000000)) {
                 return toast.error("Max thumbnail size 500 KB allowed")
@@ -50,9 +52,38 @@ const EventForm = ({ formType, event }) => {
     })
 
     // 2. Define a submit handler.
-    function onSubmit(values) {
-        if (!thumbnailFile) return toast.error("Thumbnail is required")
-        console.table(values)
+    async function onSubmit(values) {
+        if (formType?.toLowerCase() === "create") {
+            try {
+                // if user is missing, not allowed to submit
+                if (!userId) throw new Error("User id not provided");
+
+                // handle the thumbnail image
+                if (!thumbnailFile) throw new Error("Thumbnail is required")
+
+                // prepare the data for submission
+                const formData = new FormData()
+                formData.append("thumbnail", thumbnailFile);
+
+                // call server action
+                // ***if server don't accept mixed types data, i will convert all to form data***
+                const res = await createEvent({ userId, event: { ...values }, formData })
+                if (res?.error) {
+                    console.log(res.error);
+                    toast.error(res.error);
+                }
+                if (res?.success) {
+                    console.log(res?.data);
+                    toast.success("New Event Created Successfully");
+                    form.reset()
+                    setThumbnailFile(null)
+                    setThumbnailUrl(null)
+                }
+            } catch (error) {
+                console.error("Event creation error: " + error)
+                toast.error(error?.message || "Something went wrong to creating the event! Please try again later")
+            }
+        }
     }
 
     return (
@@ -233,7 +264,16 @@ const EventForm = ({ formType, event }) => {
                 />
             </div>
 
-            <div className='text-center pt-2'><Button type="submit" variant="secondary" >Submit</Button></div>
+            <div className='text-center pt-2'>
+                <Button type="submit" disabled={form.formState.isSubmitting} variant="secondary" className="disabled:opacity-80" >
+                    {form.formState.isSubmitting ?
+                        <>
+                            <Loader2 className="animate-spin w-6" />
+                            <span className='ml-1'>Processing</span>
+                        </> :
+                        <span>{formType} Event</span>
+                    }</Button>
+            </div>
 
         </form>
         </Form>
