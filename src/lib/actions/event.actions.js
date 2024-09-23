@@ -128,3 +128,18 @@ export const getEventById = async ({ eventId }) => {
         throw error
     }
 }
+
+// DELETE EVENT
+export async function deleteEvent({ eventId, path }) {
+    await connectDB()
+    try {
+        const event = await Event.findByIdAndDelete(eventId)
+        if (!event) return { error: "Event not found" }
+        // delete the thumbnail from cloudinary
+        await deleteImageFromCloudinary(event?.thumbnailUrl)
+        revalidatePath(path)
+    }
+    catch (error) {
+        throw error
+    }
+}
