@@ -1,9 +1,10 @@
-import { CalendarClockIcon, Edit, Trash } from 'lucide-react';
+import { CalendarClockIcon, Edit } from 'lucide-react';
 import moment from 'moment';
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button';
+import EventDeleteConfirmation from '../modals/EventDeleteConfirmation';
 
 const EventCard = ({ event, session }) => {
     const { _id, title, startDateTime, price, isFree, thumbnailUrl, organizer, category } = event;
@@ -40,10 +41,10 @@ const EventCard = ({ event, session }) => {
             </Link>
             {session?.user?.id === organizer?._id &&
                 <div className='flex flex-col bg-background/70 p-1 size-max rounded-md absolute top-1 right-1'>
-                    <Button variant="outline" size="icon" className="size-7" asChild>
-                        <Link href={`events/${_id}/update`}><Edit className='size-5' /></Link>
+                    <Button variant="ghost" size="icon" className="size-7" asChild>
+                        <Link href={`events/${_id}/update`}><Edit className='size-5 text-secondary' /></Link>
                     </Button>
-                    <Button variant="outline" size="icon" className="size-7"><Trash className='size-5 hover:text-red-500' /></Button>
+                    <EventDeleteConfirmation eventId={_id} />
                 </div>
             }
         </div>
