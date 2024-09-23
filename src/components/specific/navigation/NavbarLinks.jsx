@@ -13,7 +13,7 @@ export const NavbarLinks = ({ session, navbarType }) => {
             <>
                 <LinkComponent name={"Home"} href={"/"} pathname={pathname} />
                 {session?.user?.role === "organizer" && <LinkComponent name={"Create Event"} href={"/events/create"} pathname={pathname} />}
-                {session && <LinkComponent name={"My Profile"} href={"/profile"} pathname={pathname} />}
+                {session && <LinkComponent name={"My Profile"} href={"/dashboard"} pathname={pathname} />}
             </>
         )
     }
@@ -21,7 +21,7 @@ export const NavbarLinks = ({ session, navbarType }) => {
         return <>
             <DropdownMenuItemComponent name={"Home"} href={"/"} pathname={pathname} />
             {session?.user?.role === "organizer" && <DropdownMenuItemComponent name={"Create Event"} href={"/events/create"} pathname={pathname} />}
-            {session && <DropdownMenuItemComponent name={"My Profile"} href={"/profile"} pathname={pathname} />}
+            {session && <DropdownMenuItemComponent name={"My Profile"} href={"/dashboard"} pathname={pathname} />}
         </>
     }
     return <>

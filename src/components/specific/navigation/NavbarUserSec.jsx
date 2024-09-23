@@ -19,14 +19,14 @@ const NavbarUserSec = ({ session }) => {
                         </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-56">
-                        <Link href='/profile'><DropdownMenuItem className="space-x-2">
+                        <Link href='/manage-account'><DropdownMenuItem className="space-x-2">
                             <Settings className="size-5" />
                             <span>Manage Account</span>
                         </DropdownMenuItem></Link>
                         <form
                             action={async () => {
                                 "use server"
-                                await signOut()
+                                await signOut({ redirectTo: "/" })
                             }}
                         >
                             <DropdownMenuItem asChild>

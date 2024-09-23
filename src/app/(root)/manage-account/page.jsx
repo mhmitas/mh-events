@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { notFound } from "next/navigation"
 
-export default async function Component() {
+export default async function AccountPage() {
     const session = await auth()
     if (!session || !session?.user) {
         return notFound()
