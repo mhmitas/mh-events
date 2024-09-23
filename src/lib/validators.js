@@ -48,5 +48,5 @@ export const eventFormSchema = z.object({
     price: z.string(),
     isFree: z.boolean(),
     url: z.string().url(),
-    category: z.string()
+    category: z.string().min(3, { message: "Category must contain at least 3 characters" })
 })

@@ -1,11 +1,13 @@
 "use server"
 
-import { uploadImageOnCloudinary } from "../cloudinary/UploadFileOnCloudinary"
+import { revalidatePath } from "next/cache"
+import { deleteImageFromCloudinary, uploadImageOnCloudinary } from "../cloudinary/UploadFileOnCloudinary"
 import { Category } from "../database/models/category.model"
 import { Event } from "../database/models/event.model"
 import { User } from "../database/models/user.model"
 import { connectDB } from "../database/mongoose"
 
+// CREATE EVENT
 export async function createEvent({ userId, event, formData }) {
     try {
         await connectDB()
@@ -46,6 +48,52 @@ export async function createEvent({ userId, event, formData }) {
 
 }
 
+// UPDATE EVENT
+export async function updateEvent({ userId, event, formData, eventId, path }) {
+    try {
+        await connectDB()
+        // verify the user
+        const organizer = await User.findById(userId).select("_id")
+        if (!organizer) return { error: "Couldn't find the organizer." };
+
+        // get the thumbnail file from request if the user has changed the thumbnail.
+        const thumbnail = formData.get('thumbnail');
+
+        // upload the thumbnail to the cloudinary
+        let thumbnailUrl = event?.thumbnailUrl || "/images/default-event-thumbnail.png";
+        if (thumbnail) {
+            try {
+                thumbnailUrl = await uploadImageOnCloudinary(thumbnail);
+                deleteImageFromCloudinary(event?.thumbnailUrl)
+            } catch (error) {
+                console.error("Error uploading thumbnail:", error);
+            }
+        }
+
+        // modify data before upload
+        event.price = event?.isFree ? 0 : parseFloat(event.price) || 0;
+
+        // create the event 
+        const updatedEvent = await Event.findByIdAndUpdate(
+            eventId,
+            { ...event, thumbnailUrl },
+            { new: true }
+        )
+
+        if (!updatedEvent) {
+            return { error: "Event creation failed" };
+        }
+
+        revalidatePath(path)
+
+        return { success: true, data: JSON.parse(JSON.stringify(updatedEvent)) }
+    } catch (error) {
+        throw error
+    }
+
+}
+
+// POPULATE EVENT
 export const populateEvent = async (query) => {
     return query
         .populate({
@@ -56,6 +104,7 @@ export const populateEvent = async (query) => {
         })
 }
 
+// GET EVENTS
 export const getEvents = async () => {
     await connectDB()
     try {
@@ -68,6 +117,7 @@ export const getEvents = async () => {
     }
 }
 
+// GET A EVENT BY ID
 export const getEventById = async ({ eventId }) => {
     await connectDB()
     try {

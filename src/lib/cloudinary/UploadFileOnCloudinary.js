@@ -27,3 +27,13 @@ export async function uploadImageOnCloudinary(image) {
         stream.end(imageBuffer)
     })
 }
+
+export async function deleteImageFromCloudinary(url) {
+    try {
+        const publicId = url?.split('/')?.pop()?.split('.')?.shift();
+        await cloudinary.uploader.destroy(publicId);
+        return true;
+    } catch (error) {
+        console.log(error)
+    }
+}

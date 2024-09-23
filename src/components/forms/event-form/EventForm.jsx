@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { eventFormSchema } from '@/lib/validators'
@@ -16,13 +16,13 @@ import { Checkbox } from '../../ui/checkbox'
 import EventCategoryDropdown from './EventCategoryDropdown'
 import { useDropzone } from 'react-dropzone'
 import toast from 'react-hot-toast'
-import { createEvent } from '@/lib/actions/event.actions'
+import { createEvent, updateEvent } from '@/lib/actions/event.actions'
 import { useRouter } from 'next/navigation'
 
-const EventForm = ({ formType, event, userId }) => {
+const EventForm = ({ formType, event, eventId, userId }) => {
     const router = useRouter()
     const [thumbnailFile, setThumbnailFile] = useState(null)
-    const [thumbnailUrl, setThumbnailUrl] = useState(null)
+    const [thumbnailUrl, setThumbnailUrl] = useState(event && formType === "Update" ? event?.thumbnailUrl : null)
 
     const { getRootProps, getInputProps } = useDropzone({
         accept: { 'image/*': [] },
@@ -36,14 +36,15 @@ const EventForm = ({ formType, event, userId }) => {
         }
     });
 
-    // const initialValues = event && formType === "update" ?
-    //     {
-    //         ...event,
-    //         startDateTime: new Date(event.startDateTime),
-    //         endDateTime: new Date(event.endDateTime)
-    //     } :
-    //     eventFormDefaultValue;
-    const initialValues = eventFormDefaultValue;
+    const initialValues = event && formType === "Update" ?
+        {
+            ...event,
+            startDateTime: new Date(event.startDateTime),
+            endDateTime: new Date(event.endDateTime),
+            price: event?.price?.toString(),
+            category: event?.category?._id
+        } :
+        eventFormDefaultValue;
 
     // If updating an existing event, use the event data.
     // If creating a new event, use the default values.
@@ -55,7 +56,7 @@ const EventForm = ({ formType, event, userId }) => {
 
     // 2. Define a submit handler.
     async function onSubmit(values) {
-        if (formType?.toLowerCase() === "create") {
+        if (formType === "Create") {
             try {
                 // if user is missing, not allowed to submit
                 if (!userId) throw new Error("User id not provided");
@@ -75,7 +76,6 @@ const EventForm = ({ formType, event, userId }) => {
                     toast.error(res.error);
                 }
                 if (res?.success) {
-                    console.log(res?.data);
                     toast.success("New Event Created Successfully");
                     form.reset()
                     setThumbnailFile(null)
@@ -85,6 +85,50 @@ const EventForm = ({ formType, event, userId }) => {
             } catch (error) {
                 console.error("Event creation error: " + error)
                 toast.error(error?.message || "Something went wrong to creating the event! Please try again later")
+            }
+        }
+        if (event && formType === "Update") {
+            try {
+                if (!eventId) {
+                    router.back();
+                    return
+                }
+                console.log({ eventId })
+                // if user is missing, not allowed to submit
+                if (!userId) throw new Error("User id not provided");
+
+                // prepare the data for submission
+                // create a form data to handle the files upload
+                const formData = new FormData()
+                // if the thumbnail is changed, add it to the formData. else add the old thumbnailUrl to the values, and it will not change.
+                if (thumbnailFile) {
+                    formData.append("thumbnail", thumbnailFile);
+                }
+                // it will be delete if the thumbnail has changed or save to database again
+                values.thumbnailUrl = event?.thumbnailUrl;
+
+                // call server action
+                const res = await updateEvent({
+                    userId,
+                    event: { ...values },
+                    formData,
+                    eventId,
+                    path: `/events/${eventId}/details`,
+                })
+                if (res?.error) {
+                    console.log(res.error);
+                    toast.error(res.error);
+                }
+                if (res?.success) {
+                    toast.success("Event updated Successfully");
+                    form.reset()
+                    setThumbnailFile(null)
+                    setThumbnailUrl(null)
+                    router.push(`/events/${res.data?._id}/details`)
+                }
+            } catch (error) {
+                console.error("Event updating error: " + error)
+                toast.error(error?.message || "Something went wrong to updating the event! Please try again later")
             }
         }
     }
