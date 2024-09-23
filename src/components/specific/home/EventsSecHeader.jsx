@@ -23,7 +23,7 @@ export const EventsSecHeader = () => {
                     </Select>
                 </div>
                 <div className="w-full col-span-2 flex">
-                    <Input type="text" className="focus-visible:ring-0 rounded-full w-full text-base p-6 rounded-r" />
+                    <Input placeholder="🔍 Search Events..." type="text" className="focus-visible:ring-0 rounded-full w-full text-base p-6 rounded-r" />
                     <Button variant="secondary" className="p-6 rounded-r-full border"><Search /></Button>
                 </div>
             </div>

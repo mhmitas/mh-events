@@ -12,7 +12,7 @@ const EventCard = ({ event }) => {
     return (
         <Link href={`/events/${_id}/details`}>
             <div className="group relative rounded-lg overflow-hidden shadow hover:shadow-md border bg-background max-w-md mx-auto size-full flex flex-col">
-                <figure className='aspect-video bg-muted overflow-hidden'>
+                <figure className='aspect-video bg-gray-500 overflow-hidden flex items-center justify-center'>
                     <Image
                         src={thumbnailUrl}
                         alt={title}
