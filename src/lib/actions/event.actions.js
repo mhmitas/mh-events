@@ -1,6 +1,7 @@
 "use server"
 
 import { uploadImageOnCloudinary } from "../cloudinary/UploadFileOnCloudinary"
+import { Category } from "../database/models/category.model"
 import { Event } from "../database/models/event.model"
 import { User } from "../database/models/user.model"
 import { connectDB } from "../database/mongoose"
@@ -45,12 +46,34 @@ export async function createEvent({ userId, event, formData }) {
 
 }
 
+export const populateEvent = async (query) => {
+    return query
+        .populate({
+            model: User, path: 'organizer', select: "name avatar"
+        })
+        .populate({
+            model: Category, path: 'category', select: "name"
+        })
+}
+
 export const getEvents = async () => {
     await connectDB()
     try {
-        const events = await Event.find().sort({ _id: -1 })
-        if (!events) return { error: "Event not found" };
+        const events = await populateEvent(Event.find().sort({ _id: -1 }))
+
+        if (!events) throw new Error("Event not found");
         return { success: true, data: JSON.parse(JSON.stringify(events)) }
+    } catch (error) {
+        throw error
+    }
+}
+
+export const getEventById = async ({ eventId }) => {
+    await connectDB()
+    try {
+        const event = await populateEvent(Event.findById(eventId))
+        if (!event) throw new Error("Event not found")
+        return { success: true, data: JSON.parse(JSON.stringify(event)) }
     } catch (error) {
         throw error
     }

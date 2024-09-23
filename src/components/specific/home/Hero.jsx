@@ -60,7 +60,7 @@ export default function Hero() {
                                 <Button
                                     variant="outline"
                                     size="icon"
-                                    className="rounded-full bg-background/50 text-foreground hover:bg-background/80"
+                                    className="rounded-full bg-background/50 text-foreground hover:bg-background/80 border-none"
                                     onClick={prevImage}
                                 >
                                     <ChevronLeft className="h-6 w-6" />
@@ -68,7 +68,7 @@ export default function Hero() {
                                 <Button
                                     variant="outline"
                                     size="icon"
-                                    className="rounded-full bg-background/50 text-foreground hover:bg-background/80"
+                                    className="rounded-full bg-background/50 text-foreground hover:bg-background/80 border-none"
                                     onClick={nextImage}
                                 >
                                     <ChevronRight className="h-6 w-6" />

@@ -17,8 +17,10 @@ import EventCategoryDropdown from './EventCategoryDropdown'
 import { useDropzone } from 'react-dropzone'
 import toast from 'react-hot-toast'
 import { createEvent } from '@/lib/actions/event.actions'
+import { useRouter } from 'next/navigation'
 
 const EventForm = ({ formType, event, userId }) => {
+    const router = useRouter()
     const [thumbnailFile, setThumbnailFile] = useState(null)
     const [thumbnailUrl, setThumbnailUrl] = useState(null)
 
@@ -78,6 +80,7 @@ const EventForm = ({ formType, event, userId }) => {
                     form.reset()
                     setThumbnailFile(null)
                     setThumbnailUrl(null)
+                    router.push(`/events/${res.data?._id}/details`)
                 }
             } catch (error) {
                 console.error("Event creation error: " + error)
