@@ -75,7 +75,7 @@
   }
 
   .title-1 {
-    @apply text-3xl font-bold tracking-tighter md:text-4xl text-center;
+    @apply text-3xl font-bold tracking-tighter md:text-4xl;
   }
 
   .input-field {

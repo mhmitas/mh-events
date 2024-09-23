@@ -5,8 +5,11 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button';
 import EventDeleteConfirmation from '../modals/EventDeleteConfirmation';
+import { auth } from '@/auth';
 
-const EventCard = ({ event, session }) => {
+const EventCard = async ({ event }) => {
+    const session = await auth()
+
     const { _id, title, startDateTime, price, isFree, thumbnailUrl, organizer, category } = event;
 
     const formattedStartDateTime = moment(new Date(startDateTime)).format('D MMM YYYY, h:mm a');

@@ -1,5 +1,5 @@
 
-import { getEventById } from '@/lib/actions/event.actions'
+import { getEventById, getRelatedEventsByCategory } from '@/lib/actions/event.actions'
 import moment from 'moment'
 import Image from 'next/image'
 import React from 'react'
@@ -8,20 +8,27 @@ import { Button } from '@/components/ui/button'
 import { FcCalendar } from "react-icons/fc";
 import { FaLocationDot } from "react-icons/fa6";
 import Link from 'next/link'
+import EventCard from '@/components/cards/EventCard'
 
 
 const EventDetails = async ({ params: { id } }) => {
     const event = await getEventById({ eventId: id })
     if (!event?.success) return <p>Event not found</p>
 
-    const { title, _id, description, location, thumbnailUrl, startDateTime, endDateTime, price, isFree, organizer, category, url, createdAt } = event?.data;
+    const relatedEvents = await getRelatedEventsByCategory({
+        categoryId: event?.data?.category._id,
+        limit: 4,
+        eventId: event?.data?._id,
+    });
+
+    const { title, description, location, thumbnailUrl, startDateTime, endDateTime, price, isFree, organizer, category, url, createdAt } = event?.data;
 
     const formattedStartDateTime = moment(new Date(startDateTime)).format('D MMMM YYYY, h:mm a');
     const formattedEndDateTime = moment(new Date(endDateTime)).format('D MMMM YYYY, h:mm a');
 
     return (
-        <main className='max-w-4xl mx-auto'>
-            <section className='my-container mt-4 mb-14'>
+        <main className='max-w-4xl mx-auto mb-14'>
+            <section className='my-container mt-4'>
                 <figure className='w-full aspect-video rounded-lg overflow-hidden flex items-center justify-center'>
                     <Image src={thumbnailUrl} width={1000} height={562.5} alt={title} className='w-full rounded-lg' />
                 </figure>
@@ -63,6 +70,17 @@ const EventDetails = async ({ params: { id } }) => {
                     </div>
                 </div>
             </section>
+            {relatedEvents?.data?.length > 0 && <section className='mt-10 my-container'>
+                <h3 className='title-1 text-start mb-4'>Related events</h3>
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 w-full'>
+                    {
+                        relatedEvents?.success &&
+                        relatedEvents?.data?.map((event) => (
+                            <EventCard event={event} key={event?._id} />
+                        ))
+                    }
+                </div>
+            </section>}
         </main>
     )
 }

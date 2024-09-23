@@ -6,6 +6,7 @@ import { Category } from "../database/models/category.model"
 import { Event } from "../database/models/event.model"
 import { User } from "../database/models/user.model"
 import { connectDB } from "../database/mongoose"
+import mongoose from "mongoose"
 
 // CREATE EVENT
 export async function createEvent({ userId, event, formData }) {
@@ -138,6 +139,27 @@ export async function deleteEvent({ eventId, path }) {
         // delete the thumbnail from cloudinary
         await deleteImageFromCloudinary(event?.thumbnailUrl)
         revalidatePath(path)
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+// GET RELATED EVENTS BY CATEGORY
+export async function getRelatedEventsByCategory({ categoryId, limit, eventId }) {
+    console.log(categoryId)
+    try {
+        await connectDB()
+
+        const conditions = {
+            $and: [
+                { category: categoryId },
+                { _id: { $ne: eventId } }
+            ]
+        }
+        const events = await populateEvent(Event.find(conditions).sort({ _id: -1 }).limit(parseInt(limit)));
+
+        return { success: true, data: JSON.parse(JSON.stringify(events)) }
     }
     catch (error) {
         throw error

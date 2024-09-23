@@ -8,7 +8,7 @@ import { Search } from 'lucide-react'
 export const EventsSecHeader = () => {
     return (
         <div>
-            <h1 className='title-1 mb-6' id="event_section_title">Trusted by thousand of events</h1>
+            <h1 className='title-1 text-center mb-6' id="event_section_title">Trusted by thousand of events</h1>
             <div className='max-w-3xl mx-auto flex flex-col sm:grid grid-cols-3 gap-2'>
                 <div className="w-full">
                     <Select className="w-full">
