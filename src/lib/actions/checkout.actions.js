@@ -54,3 +54,17 @@ export async function createOrder({ order }) {
         throw error;
     }
 }
+
+export async function hasUserBookedTicket({ eventId, userId }) {
+    try {
+        await connectDB()
+
+        const isBought = await Order.exists({
+            event: eventId,
+            buyer: userId,
+        })
+        return !!isBought;
+    } catch (error) {
+        throw error;
+    }
+}

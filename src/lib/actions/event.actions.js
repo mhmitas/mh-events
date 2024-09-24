@@ -6,7 +6,6 @@ import { Category } from "../database/models/category.model"
 import { Event } from "../database/models/event.model"
 import { User } from "../database/models/user.model"
 import { connectDB } from "../database/mongoose"
-import mongoose from "mongoose"
 
 // CREATE EVENT
 export async function createEvent({ userId, event, formData }) {

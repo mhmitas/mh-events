@@ -32,8 +32,6 @@ export async function POST(request) {
         }
 
         const { data } = await createOrder({ order });
-        // todo: remove the log
-        console.log({ newOrder: data })
         return NextResponse.json({ message: "OK", order: data })
     }
 

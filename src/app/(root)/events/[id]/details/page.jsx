@@ -16,17 +16,21 @@ const EventDetails = async ({ params: { id } }) => {
 
     const session = await auth();
 
+    // FETCH EVENT DATA
     const eventData = await getEventById({ eventId: id })
     if (!eventData?.success) return <p>Event not found</p>
 
+    // FETCH RELATED EVENTS
     const relatedEvents = await getRelatedEventsByCategory({
         categoryId: eventData?.data?.category._id,
         limit: 4,
         eventId: eventData?.data?._id,
     });
 
+    // DESTRUCTURE EVENT DATA
     const { title, description, location, thumbnailUrl, startDateTime, endDateTime, price, isFree, organizer, category, url, createdAt } = eventData?.data;
 
+    // FORMAT DATE&TIMES
     const formattedStartDateTime = moment(new Date(startDateTime)).format('D MMMM YYYY, h:mm a');
     const formattedEndDateTime = moment(new Date(endDateTime)).format('D MMMM YYYY, h:mm a');
 

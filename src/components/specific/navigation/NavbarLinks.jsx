@@ -13,7 +13,7 @@ export const NavbarLinks = ({ session, navbarType }) => {
             <>
                 <LinkComponent name={"Home"} href={"/"} pathname={pathname} />
                 {session && <LinkComponent name={"Create Event"} href={"/events/create"} pathname={pathname} />}
-                {session && <LinkComponent name={"Dashboard"} href={"/dashboard"} pathname={pathname} />}
+                {session && <LinkComponent name={"Dashboard"} href={"/dashboard?tab=my_events"} pathname={pathname} />}
             </>
         )
     }
