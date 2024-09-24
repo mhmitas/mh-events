@@ -13,7 +13,7 @@ const EventsSection = async () => {
     return (
         <section className='my-container pt-8'>
             <EventsSecHeader />
-            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 pt-10">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pt-10">
                 {events?.length > 0 && events.map((event) => (
                     <EventCard key={event?._id} event={event} />
                 ))}
