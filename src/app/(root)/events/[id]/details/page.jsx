@@ -4,24 +4,28 @@ import moment from 'moment'
 import Image from 'next/image'
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from '@/components/ui/button'
 import { FcCalendar } from "react-icons/fc";
 import { FaLocationDot } from "react-icons/fa6";
 import Link from 'next/link'
 import EventCard from '@/components/cards/EventCard'
+import CheckoutButton from '@/components/shared/CheckoutButton'
+import { auth } from '@/auth'
 
 
 const EventDetails = async ({ params: { id } }) => {
-    const event = await getEventById({ eventId: id })
-    if (!event?.success) return <p>Event not found</p>
+
+    const session = await auth();
+
+    const eventData = await getEventById({ eventId: id })
+    if (!eventData?.success) return <p>Event not found</p>
 
     const relatedEvents = await getRelatedEventsByCategory({
-        categoryId: event?.data?.category._id,
+        categoryId: eventData?.data?.category._id,
         limit: 4,
-        eventId: event?.data?._id,
+        eventId: eventData?.data?._id,
     });
 
-    const { title, description, location, thumbnailUrl, startDateTime, endDateTime, price, isFree, organizer, category, url, createdAt } = event?.data;
+    const { title, description, location, thumbnailUrl, startDateTime, endDateTime, price, isFree, organizer, category, url, createdAt } = eventData?.data;
 
     const formattedStartDateTime = moment(new Date(startDateTime)).format('D MMMM YYYY, h:mm a');
     const formattedEndDateTime = moment(new Date(endDateTime)).format('D MMMM YYYY, h:mm a');
@@ -47,11 +51,7 @@ const EventDetails = async ({ params: { id } }) => {
                             <p className='space-x-2 font-semibold sm:text-lg'>{organizer?.name}</p>
                         </div>
                         <div>
-                            {new Date(endDateTime) < new Date()
-                                ? <p className='text-destructive'>Sorry! the event has been closed</p>
-                                : <Button variant="secondary" className="rounded-full">{isFree ? "Get Ticket" : "Buy Ticket"}</Button>
-                            }
-
+                            <CheckoutButton event={eventData?.data} session={session} />
                         </div>
                     </div>
                     <div className='space-y-2'>

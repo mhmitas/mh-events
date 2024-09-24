@@ -40,7 +40,7 @@ const NavbarUserSec = ({ session }) => {
                 </DropdownMenu>
                 :
                 <Button size="sm" className="space-x-1" asChild>
-                    <Link href="sign-in"><User className="w-5" /><span>Sign In</span></Link>
+                    <Link href="/sign-in"><User className="w-5" /><span>Sign In</span></Link>
                 </Button>
             }
         </>
