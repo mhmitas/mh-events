@@ -31,7 +31,8 @@ export async function POST(request) {
             totalAmount: amount_total ? (amount_total / 100) : 0,
         }
 
-        const { data } = await createOrder(order);
+        const { data } = await createOrder({ order });
+        // todo: remove the log
         console.log({ newOrder: data })
         return NextResponse.json({ message: "OK", order: data })
     }
