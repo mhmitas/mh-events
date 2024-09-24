@@ -38,7 +38,6 @@ const CheckoutButton = ({ event, session }) => {
             eventImage: event?.thumbnailUrl,
             eventId: event?._id,
         }
-        return console.log(order)
         startTransition(async () => {
             await checkoutOrder({ order })
         });
