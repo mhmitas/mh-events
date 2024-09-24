@@ -30,10 +30,10 @@ export async function POST(request) {
             buyerId: metadata?.buyerId || "",
             totalAmount: amount_total ? (amount_total / 100) : 0,
         }
-        console.log({ order })
 
-        const newOrder = await createOrder(order)
-        return NextResponse.json({ message: "OK", order: newOrder })
+        const { data } = await createOrder(order);
+        console.log({ newOrder: data })
+        return NextResponse.json({ message: "OK", order: data })
     }
 
     return new Response("", { status: 200 })
