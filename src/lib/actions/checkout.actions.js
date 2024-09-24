@@ -48,7 +48,7 @@ export async function createOrder({ order }) {
             event: order.eventId,
             buyer: order.buyerId,
         })
-
+        console.log({ newOrder })
         return { success: true, data: JSON.parse(JSON.stringify(newOrder)) }
         // TODO: send order confirmation email
     } catch (error) {

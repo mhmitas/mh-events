@@ -36,7 +36,7 @@ const CheckoutButton = ({ event, session }) => {
             isFree: event?.isFree,
             userId: session?.userId,
             eventImage: event?.thumbnailUrl,
-            eventId: event?.id,
+            eventId: event?._id,
         }
         startTransition(async () => {
             await checkoutOrder({ order })
