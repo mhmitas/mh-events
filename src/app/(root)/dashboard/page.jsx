@@ -1,8 +1,13 @@
+import DashboardTabs from '@/components/specific/dashboard/DashboardTabs'
 import React from 'react'
 
 const page = () => {
+
     return (
-        <div>page</div>
+        <main className='my-container'>
+            <DashboardTabs />
+
+        </main>
     )
 }
 

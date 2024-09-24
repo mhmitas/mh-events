@@ -29,7 +29,7 @@ const EventCard = async ({ event }) => {
                     </figure>
                     <div className="p-4 space-y-3 flex-1">
                         <div className='flex flex-wrap gap-2'>
-                            <span className="event-card-badge bg-green-100 text-green-600 rounded-full">
+                            <span className="event-card-badge bg-green-600/20 text-green-600 rounded-full">
                                 {isFree ? "FREE" : "$" + price}
                             </span>
                             <span className="event-card-badge bg-muted rounded-full">
@@ -39,7 +39,7 @@ const EventCard = async ({ event }) => {
                         <h3 className='font-medium text-foreground/80 text flex gap-1 items-center'><CalendarClockIcon className='size-4 text-rose-500' />{formattedStartDateTime}</h3>
                         <h3 className="text-lg font-medium leading-6 line-clamp-2">{title}</h3>
                     </div>
-                    <h1 className='font-semibold text-foreground/80 line-clamp-1 p-4 pt-0'>{organizer?.name}</h1>
+                    <h1 className='font-semibold text-foreground/80 line-clamp-1 p-4 pt-0'>By : {organizer?.name}</h1>
                 </div>
             </Link>
             {session?.user?.id === organizer?._id &&

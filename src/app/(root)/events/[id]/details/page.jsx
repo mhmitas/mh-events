@@ -47,7 +47,11 @@ const EventDetails = async ({ params: { id } }) => {
                             <p className='space-x-2 font-semibold sm:text-lg'>{organizer?.name}</p>
                         </div>
                         <div>
-                            <Button variant="secondary" className="rounded-full">Buy Ticket</Button>
+                            {new Date(endDateTime) < new Date()
+                                ? <p className='text-destructive'>Sorry! the event has been closed</p>
+                                : <Button variant="secondary" className="rounded-full">{isFree ? "Get Ticket" : "Buy Ticket"}</Button>
+                            }
+
                         </div>
                     </div>
                     <div className='space-y-2'>

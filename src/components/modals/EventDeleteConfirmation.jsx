@@ -19,7 +19,7 @@ const EventDeleteConfirmation = ({ eventId }) => {
       <AlertDialogTrigger asChild>
         <Button variant="ghost" size="icon" className="size-7"><Trash className='size-5 text-red-500' /></Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="rounded-lg w-[95%] max-w-md">
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>

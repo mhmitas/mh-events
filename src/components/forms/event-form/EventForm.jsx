@@ -70,7 +70,11 @@ const EventForm = ({ formType, event, eventId, userId }) => {
 
                 // call server action
                 // ***if server don't accept mixed types data, i will convert all to form data***
-                const res = await createEvent({ userId, event: { ...values }, formData })
+                const res = await createEvent({
+                    userId,
+                    event: { ...values },
+                    formData
+                })
                 if (res?.error) {
                     console.log(res.error);
                     toast.error(res.error);
@@ -93,7 +97,6 @@ const EventForm = ({ formType, event, eventId, userId }) => {
                     router.back();
                     return
                 }
-                console.log({ eventId })
                 // if user is missing, not allowed to submit
                 if (!userId) throw new Error("User id not provided");
 
@@ -135,7 +138,8 @@ const EventForm = ({ formType, event, eventId, userId }) => {
 
     return (
         <div><Form {...form}><form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-3xl mx-auto border p-4 sm:p-8 rounded-lg bg-background shadow-md">
-            {/* <div className="space-y-4 p-0"> */}
+
+            {/* TITLE */}
             <FormField
                 control={form.control}
                 name="title"
@@ -150,6 +154,7 @@ const EventForm = ({ formType, event, eventId, userId }) => {
                 )}
             />
 
+            {/* DESCRIPTION */}
             <FormField
                 control={form.control}
                 name="description"
@@ -163,6 +168,8 @@ const EventForm = ({ formType, event, eventId, userId }) => {
                     </FormItem>
                 )}
             />
+
+            {/* CATEGORY */}
             <FormField
                 control={form.control}
                 name="category"
@@ -177,6 +184,7 @@ const EventForm = ({ formType, event, eventId, userId }) => {
                 )}
             />
 
+            {/* LOCATION */}
             <FormField
                 control={form.control}
                 name="location"
@@ -191,6 +199,7 @@ const EventForm = ({ formType, event, eventId, userId }) => {
                 )}
             />
 
+            {/* THUMBNAIL */}
             <div className='-2 border bg-muted/50 rounded-lg'>
                 <div {...getRootProps({ className: 'dropzone' })} className='max-w-lg mx-auto sm:my-2 cursor-pointer' title='Click to select'>
                     <input {...getInputProps()} type="file" name="thumbnail" />
@@ -208,6 +217,7 @@ const EventForm = ({ formType, event, eventId, userId }) => {
                 </div>
             </div>
 
+            {/* DATE AND TIMES */}
             <div className="grid md:gap-8 gap-4 grid-cols-1 md:grid-cols-2">
                 <FormField
                     control={form.control}
@@ -255,6 +265,7 @@ const EventForm = ({ formType, event, eventId, userId }) => {
                 />
             </div>
 
+            {/* PRICE */}
             <div className="grid md:gap-8 gap-4 grid-cols-1 md:grid-cols-2">
                 <FormField
                     control={form.control}
@@ -311,6 +322,7 @@ const EventForm = ({ formType, event, eventId, userId }) => {
                 />
             </div>
 
+            {/* SUBMIT BUTTON */}
             <div className='text-center pt-2'>
                 <Button type="submit" disabled={form.formState.isSubmitting} variant="secondary" className="disabled:opacity-80" >
                     {form.formState.isSubmitting ?

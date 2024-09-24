@@ -13,7 +13,7 @@ const page = async () => {
 
     return (
         <main className='bg-muted dark:bg-background/50 pb-16 pt-8'><section className='my-container'>
-            <h1 className='title-1 mb-6'>Create Event</h1>
+            <h1 className='title-1 mb-6 text-center'>Create Event</h1>
             <EventForm formType="Create" userId={session?.user?.id} />
         </section></main>
     )
