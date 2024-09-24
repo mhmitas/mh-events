@@ -34,10 +34,11 @@ const CheckoutButton = ({ event, session }) => {
             eventTitle: event?.title,
             price: event?.price,
             isFree: event?.isFree,
-            userId: session?.userId,
+            userId: session?.user?.id,
             eventImage: event?.thumbnailUrl,
             eventId: event?._id,
         }
+        return console.log(order)
         startTransition(async () => {
             await checkoutOrder({ order })
         });
