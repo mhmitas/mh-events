@@ -93,6 +93,21 @@ export async function updateEvent({ userId, event, formData, eventId, path }) {
 
 }
 
+// DELETE EVENT
+export async function deleteEvent({ eventId, path }) {
+    try {
+        await connectDB()
+        const event = await Event.findByIdAndDelete(eventId)
+        if (!event) return { error: "Event not found" }
+        // delete the thumbnail from cloudinary
+        await deleteImageFromCloudinary(event?.thumbnailUrl)
+        revalidatePath(path)
+    }
+    catch (error) {
+        throw error
+    }
+}
+
 // POPULATE EVENT
 export const populateEvent = async (query) => {
     return query
@@ -105,13 +120,22 @@ export const populateEvent = async (query) => {
 }
 
 // GET EVENTS
-export const getEvents = async () => {
+export const getEvents = async ({ page = 1, limit = 12 }) => {
+    // console.log({ page, limit, skip: (page - 1) * limit })
     await connectDB()
     try {
-        const events = await populateEvent(Event.find().sort({ _id: -1 }))
+        const events = await populateEvent(
+            Event
+                .find()
+                .sort({ _id: -1 })
+                .limit(parseInt(limit))
+                .skip(Number((page - 1) * limit))
+        )
 
-        if (!events) throw new Error("Event not found");
-        return { success: true, data: JSON.parse(JSON.stringify(events)) }
+        const totalEvents = await Event.estimatedDocumentCount()
+        const totalPages = Math.ceil(totalEvents / limit);
+
+        return { success: true, data: JSON.parse(JSON.stringify(events)), totalPages }
     } catch (error) {
         throw error
     }
@@ -119,8 +143,9 @@ export const getEvents = async () => {
 
 // GET A EVENT BY ID
 export const getEventById = async ({ eventId }) => {
-    await connectDB()
     try {
+        await connectDB()
+
         const event = await populateEvent(Event.findById(eventId))
         if (!event) throw new Error("Event not found")
         return { success: true, data: JSON.parse(JSON.stringify(event)) }
@@ -129,24 +154,8 @@ export const getEventById = async ({ eventId }) => {
     }
 }
 
-// DELETE EVENT
-export async function deleteEvent({ eventId, path }) {
-    await connectDB()
-    try {
-        const event = await Event.findByIdAndDelete(eventId)
-        if (!event) return { error: "Event not found" }
-        // delete the thumbnail from cloudinary
-        await deleteImageFromCloudinary(event?.thumbnailUrl)
-        revalidatePath(path)
-    }
-    catch (error) {
-        throw error
-    }
-}
-
 // GET RELATED EVENTS BY CATEGORY
 export async function getRelatedEventsByCategory({ categoryId, limit, eventId }) {
-    console.log(categoryId)
     try {
         await connectDB()
 
@@ -163,4 +172,21 @@ export async function getRelatedEventsByCategory({ categoryId, limit, eventId })
     catch (error) {
         throw error
     }
+}
+
+export async function getEventsByUser({ userId }) {
+    try {
+        connectDB()
+
+        const events = await populateEvent(
+            Event
+                .find({ organizer: userId })
+                .sort({ _id: -1 })
+        )
+
+        return { success: true, data: JSON.parse(JSON.stringify(events)) }
+    } catch (error) {
+        throw error;
+    }
+
 }

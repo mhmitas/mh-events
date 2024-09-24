@@ -41,7 +41,7 @@ export default function Hero() {
                             Host, manage, book, and execute stunning events with ease using our powerful platform.
                         </p>
                         <Button size="lg" variant="secondary" asChild>
-                            <Link href="/#event_section_title">Get Started</Link>
+                            <Link href="/#event_section">Get Started</Link>
                         </Button>
                     </div>
                     <div className="flex-1 w-full max-w-xl lg:max-w-none relative">
