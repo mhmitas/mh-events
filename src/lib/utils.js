@@ -35,3 +35,9 @@ export function removeKeysFromQuery({ params, keysToRemove }) {
     { skipNull: true }
   )
 }
+
+export async function setPageNumberTo1(url) {
+  console.log(url)
+  const newUrl = url.replace(/page=\d+/i, "page=1")
+  return newUrl
+}

@@ -18,7 +18,7 @@ const EventCard = async ({ event, ordersLink }) => {
         <div className="group relative rounded-lg overflow-hidden shadow hover:shadow-md border bg-background max-w-md size-full mx-auto">
             <div className='size-full flex flex-col'>
                 <Link href={`/events/${_id}/details`}>
-                    <figure className='aspect-video bg-gray-500 overflow-hidden flex items-center justify-center'>
+                    <figure className='aspect-video bg-gray-100 dark:bg-gray-900 overflow-hidden flex items-center justify-center'>
                         <Image
                             src={thumbnailUrl}
                             alt={title}

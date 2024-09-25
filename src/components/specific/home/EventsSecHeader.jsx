@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "
 import { Button } from '@/components/ui/button'
 import { Search } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { formUrlQuery, removeKeysFromQuery } from '@/lib/utils'
+import { formUrlQuery, removeKeysFromQuery, setPageNumberTo1 } from '@/lib/utils'
 
 
 export const EventsSecHeader = ({ categories }) => {
@@ -15,25 +15,31 @@ export const EventsSecHeader = ({ categories }) => {
     const searchParams = useSearchParams();
 
     useEffect(() => {
-        let newUrl = ''
+        async function handleSearch() {
+            let newUrl = ''
 
-        if (query) {
-            newUrl = formUrlQuery({
-                params: searchParams.toString(),
-                key: 'query',
-                value: query
-            })
-        } else {
-            newUrl = removeKeysFromQuery({
-                params: searchParams.toString(),
-                keysToRemove: ['query']
-            })
+            if (query) {
+                newUrl = formUrlQuery({
+                    params: searchParams.toString(),
+                    key: 'query',
+                    value: query
+                })
+            } else {
+                newUrl = removeKeysFromQuery({
+                    params: searchParams.toString(),
+                    keysToRemove: ['query']
+                })
+            }
+
+            let formattedNewUrl = await setPageNumberTo1(newUrl)
+
+            router.push(formattedNewUrl, { scroll: false });
         }
 
-        router.push(newUrl, { scroll: false });
-    }, [query, searchParams, router])
+        handleSearch()
+    }, [query])
 
-    const handleCategoryChange = (category) => {
+    const handleCategoryChange = async (category) => {
         let newUrl = ''
         if (category) {
             newUrl = formUrlQuery({
@@ -48,7 +54,9 @@ export const EventsSecHeader = ({ categories }) => {
             })
         }
 
-        router.push(newUrl, { scroll: false });
+        let formattedNewUrl = await setPageNumberTo1(newUrl)
+
+        router.push(formattedNewUrl, { scroll: false });
     }
 
     return (
