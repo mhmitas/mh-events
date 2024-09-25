@@ -18,7 +18,6 @@ export const EventsSecHeader = ({ categories }) => {
         let newUrl = ''
 
         if (query) {
-
             newUrl = formUrlQuery({
                 params: searchParams.toString(),
                 key: 'query',

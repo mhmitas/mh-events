@@ -124,7 +124,7 @@ export const getEvents = async ({ page = 1, limit = 12, query, category }) => {
     try {
         await connectDB()
 
-        console.log("Log from event.action:", { page, limit, query, category })
+        // console.log("Log from event.action:", { page, limit, query, category })
 
         const titleCondition = query ? { title: { $regex: query, $options: "i" } } : {};
 
