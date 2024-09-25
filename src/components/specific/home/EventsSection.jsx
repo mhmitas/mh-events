@@ -4,13 +4,14 @@ import EventSecPagination from './EventSecPagination'
 import EventCard from '@/components/cards/EventCard'
 import { getEvents } from '@/lib/actions/event.actions'
 
-const EventsSection = async ({ page }) => {
+const EventsSection = async ({ page, search }) => {
     // const session = await auth()
 
     // fetch events data form server
     const { data: events, totalPages } = await getEvents({
         page: parseInt(page),
-        limit: 4
+        limit: 4,
+        query: search
     })
     if (!events) return <p>Events not found</p>
 
@@ -23,7 +24,7 @@ const EventsSection = async ({ page }) => {
                 ))}
             </div>
             {totalPages > 1 &&
-                <EventSecPagination totalPages={totalPages} currentPage={page} />
+                <EventSecPagination totalPages={totalPages} currentPage={Number(page)} />
             }
         </section>
     )

@@ -120,19 +120,22 @@ export const populateEvent = async (query) => {
 }
 
 // GET EVENTS
-export const getEvents = async ({ page = 1, limit = 12 }) => {
-    // console.log({ page, limit, skip: (page - 1) * limit })
-    await connectDB()
+export const getEvents = async ({ page = 1, limit = 12, query = "" }) => {
     try {
+        await connectDB()
+
+        const conditions = { title: { $regex: query, $options: "i" } }
+
         const events = await populateEvent(
             Event
-                .find()
+                .find(conditions)
                 .sort({ _id: -1 })
                 .limit(parseInt(limit))
                 .skip(Number((page - 1) * limit))
         )
 
-        const totalEvents = await Event.estimatedDocumentCount()
+        const totalEvents = await Event.countDocuments(conditions);
+
         const totalPages = Math.ceil(totalEvents / limit);
 
         return { success: true, data: JSON.parse(JSON.stringify(events)), totalPages }

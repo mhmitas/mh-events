@@ -11,24 +11,25 @@ export default function EventSecPagination({ totalPages, currentPage }) {
     function navigateToPage(pageNumber) {
         router.push(`${pathname}?page=${pageNumber}#event_section`)
     }
-
-    function doExperiment() {
-        globalThis.scrollTo({ top: 700, left: 0, behavior: "smooth" });
-    }
+    // console.log({ currentPage, totalPages })
+    // console.log("pages:", [...Array(totalPages).keys()])
 
     return (
         <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-4 pt-12">
             <div></div>
             <div className="flex items-center space-x-2">
                 <Button
-                    onClick={doExperiment}
+                    disabled={currentPage === 1}
+                    onClick={() => navigateToPage(currentPage - 1)}
                     variant="outline"
                     aria-label="Previous page"
                 >
                     <ChevronLeft className="h-4 w-4" />
                 </Button>
                 <div className="flex space-x-2">
-                    {[...Array(totalPages).keys()]
+                    {[...Array(totalPages).keys()]?.slice(
+                        currentPage == 1 ? 0 : currentPage - 2, currentPage + 1
+                    )
                         .map((page) => (
                             <Button
                                 onClick={() => navigateToPage(page + 1)}
@@ -40,6 +41,8 @@ export default function EventSecPagination({ totalPages, currentPage }) {
                     }
                 </div>
                 <Button
+                    disabled={totalPages === currentPage}
+                    onClick={() => navigateToPage(currentPage + 1)}
                     variant="outline"
                     aria-label="Next page"
                 >

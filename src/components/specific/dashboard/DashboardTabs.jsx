@@ -36,7 +36,7 @@ function TabButton({ tab, name, currentTab, handleRouter }) {
   return (
     <button
       onClick={() => handleRouter(tab)}
-      className={`border-b-[3px] hover:bg-muted active:bg-muted/80 ${currentTab === tab ? "border-blue-500 text-foreground" : "border-transparent text-foreground/90"} min-w-max p-2 rounded-t-lg`}
+      className={`border-b-[3px] active:bg-muted/80 ${currentTab === tab ? "border-blue-500 text-foreground" : "border-transparent text-foreground/90"} min-w-max p-2 rounded-t-sm`}
     >{name}</button>
   )
 }
