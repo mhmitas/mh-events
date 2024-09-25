@@ -6,6 +6,7 @@ import { Category } from "../database/models/category.model"
 import { Event } from "../database/models/event.model"
 import { User } from "../database/models/user.model"
 import { connectDB } from "../database/mongoose"
+import { Order } from "../database/models/order.model"
 
 // CREATE EVENT
 export async function createEvent({ userId, event, formData }) {
@@ -185,6 +186,7 @@ export async function getRelatedEventsByCategory({ categoryId, limit, eventId })
     }
 }
 
+// GET EVENTS ORGANIZED BY USER
 export async function getEventsByUser({ userId }) {
     try {
         connectDB()
@@ -194,10 +196,25 @@ export async function getEventsByUser({ userId }) {
                 .find({ organizer: userId })
                 .sort({ _id: -1 })
         )
-
         return { success: true, data: JSON.parse(JSON.stringify(events)) }
     } catch (error) {
         throw error;
     }
 
+}
+
+// GET BOOKED EVENT TICKETS BY USER
+export async function getTicketsOfUser({ userId }) {
+    try {
+        await connectDB()
+
+        const orders = await Order
+            .find({ buyer: userId })
+            .sort({ createdAt: -1 })
+            .populate({ model: Event, path: 'event', select: ["title", "organizer", "startDateTime", "endDateTime"] });
+
+        return { success: true, data: JSON.parse(JSON.stringify(orders)) }
+    } catch (error) {
+        throw error
+    }
 }
