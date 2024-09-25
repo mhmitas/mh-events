@@ -8,7 +8,7 @@ const page = ({ searchParams }) => {
     return (
         <main>
             <Hero />
-            <EventsSection search={searchParams.query || ""} page={searchParams?.page || 1} />
+            <EventsSection searchParams={searchParams} />
             <AboutSection />
         </main>
     )

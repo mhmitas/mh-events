@@ -49,15 +49,6 @@ export default function EventSecPagination({ totalPages, currentPage }) {
                     <ChevronRight className="h-4 w-4" />
                 </Button>
             </div>
-            {/* <div className="flex items-center space-x-2">
-                <Input
-                    type="number"
-                    placeholder="Page"
-                    className="w-20"
-                    min={1}
-                />
-                <Button>Go</Button>
-            </div> */}
             <div className="text-sm text-muted-foreground">
                 Page {currentPage} of {totalPages}
             </div>

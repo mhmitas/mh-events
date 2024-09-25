@@ -120,11 +120,19 @@ export const populateEvent = async (query) => {
 }
 
 // GET EVENTS
-export const getEvents = async ({ page = 1, limit = 12, query = "" }) => {
+export const getEvents = async ({ page = 1, limit = 12, query, category }) => {
     try {
         await connectDB()
 
-        const conditions = { title: { $regex: query, $options: "i" } }
+        console.log("Log from event.action:", { page, limit, query, category })
+
+        const titleCondition = query ? { title: { $regex: query, $options: "i" } } : {};
+
+        const categoryCondition = category ? { category: category } : {}
+
+        const conditions = {
+            $and: [titleCondition, categoryCondition]
+        }
 
         const events = await populateEvent(
             Event
