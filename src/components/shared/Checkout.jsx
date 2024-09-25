@@ -3,7 +3,7 @@
 import React, { useEffect, useTransition } from 'react'
 import { Button } from '../ui/button'
 import { loadStripe } from '@stripe/stripe-js';
-import { checkoutOrder } from '@/lib/actions/checkout.actions';
+import { checkoutOrder } from '@/lib/actions/order.actions';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid recreating the `Stripe` object on every render.
 loadStripe(

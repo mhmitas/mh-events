@@ -3,8 +3,8 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 
 import Checkout from "./Checkout";
-import { hasUserBookedTicket } from "@/lib/actions/checkout.actions";
 import { ExternalLink } from "lucide-react";
+import { hasUserBookedTicket } from "@/lib/actions/order.actions";
 
 const CheckoutButton = async ({ event, session }) => {
     const isBooked = await hasUserBookedTicket({

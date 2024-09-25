@@ -9,7 +9,9 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-const OrdersPage = () => {
+const OrdersPage = ({ params: { id } }) => {
+    console.log({ id })
+
     return (
         <div className='my-container'>
             <h3 className='title-1 my-4'>Orders</h3>

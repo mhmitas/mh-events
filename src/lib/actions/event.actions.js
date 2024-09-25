@@ -98,6 +98,7 @@ export async function updateEvent({ userId, event, formData, eventId, path }) {
 export async function deleteEvent({ eventId, path }) {
     try {
         await connectDB()
+
         const event = await Event.findByIdAndDelete(eventId)
         if (!event) return { error: "Event not found" }
         // delete the thumbnail from cloudinary
@@ -189,7 +190,7 @@ export async function getRelatedEventsByCategory({ categoryId, limit, eventId })
 // GET EVENTS ORGANIZED BY USER
 export async function getEventsByUser({ userId }) {
     try {
-        connectDB()
+        await connectDB()
 
         const events = await populateEvent(
             Event
