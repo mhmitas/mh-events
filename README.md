@@ -2,8 +2,8 @@
 
 <div align="center">
   <br />
-    <a href="#" target="_blank">
-      <img src="" alt="Project Banner">
+    <a href="https://mhmitas.vercel.app/" target="_blank">
+      <img src="https://github.com/mhmitas/mh-events/blob/edit-readme-file/public/images/Screenshot.png?raw=true" alt="Project Banner">
     </a>
   <br />
 
@@ -14,25 +14,64 @@
   </div>
 </div>
 
-## Getting Started
 
-First, run the development server:
+## 📋 <a name="table">Table of Contents</a>
+
+1. 🤖 [Introduction](#introduction)
+2. ⚙️ [Tech Stack](#tech-stack)
+3. 🔋 [Features](#features)
+4. 🤸 [Quick Start](#getting-started)
+5. 🔗 [Links](#links)
+
+## <a name="introduction">🤖 Introduction</a>
+**It's an event management app where users can quickly create an account and start using it.**<br/>
+
+## 🔋Features
+- Easy to organize an event, with quick image uploading with Cloudinary ☁️
+- 
+
+## <a name="getting-started">🤸 Getting Started</a>
+
+Clone the repository by running this command in your CLI
+```bash
+git clone https://github.com/mhmitas/mh-events.git
+```
+
+create a `.env.local` file in the root of the project, and fill in the below variables
+```env
+MONGODB_URI=""
+
+GMAIL_ID=""
+GMAIL_APP_PASSWORD=""
+
+APP_URL=
+
+# run `npx auth secret` to generate this variable
+AUTH_SECRET=""
+
+# Go to your Google account and create a app 
+AUTH_GOOGLE_ID=""
+AUTH_GOOGLE_SECRET=""
+
+# create a Cloudinary account and take these credentials
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+# https://dashboard.stripe.com/apikeys
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+```
+
+
+Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
 
