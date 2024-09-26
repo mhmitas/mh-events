@@ -26,9 +26,28 @@
 ## <a name="introduction">🤖 Introduction</a>
 **It's an event management app where users can quickly create an account and start using it.**<br/>
 
-## 🔋Features
-- Easy to organize an event, with quick image uploading with Cloudinary ☁️
-- 
+## <a name="tech-stack">⚙️ Tech Stack</a>
+1. React.js
+2. Next.js
+3. Mongodb with Mongoose
+4. Stripe
+5. Tailswindcss
+6. Shadncn/UI
+7. ShadCn form with React Hook Form and Zod
+8. Cloudinary
+9. Auth.js
+
+## <a name="features">🔋 Features</a>
+
+- Simplified event organization process.
+- Effortless event booking with just a few clicks.
+- Comprehensive dashboard for managing events and bookings.
+- Advanced search and filtering options for easy event discovery.
+- Secure payment integration via Stripe.
+- Optimized for fast loading and performance with Next.js.
+
+## Tech Stack
+
 
 ## <a name="getting-started">🤸 Getting Started</a>
 
@@ -72,18 +91,3 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
