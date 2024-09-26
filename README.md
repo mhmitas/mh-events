@@ -1,6 +1,18 @@
 # MH EVENTS
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+  <br />
+    <a href="#" target="_blank">
+      <img src="" alt="Project Banner">
+    </a>
+  <br />
+
+  <div>
+   <img src="https://img.shields.io/badge/-React_JS-blue?style=for-the-badge&logoColor=white&logo=react&color=61DAFB" alt="React.js" />
+    <img src="https://img.shields.io/badge/-Next_JS_14-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000" alt="Next.js" />
+    <img src="https://img.shields.io/badge/-Stripe-black?style=for-the-badge&logoColor=white&logo=stripe&color=008CDD" alt="stripe" />
+  </div>
+</div>
 
 ## Getting Started
 
