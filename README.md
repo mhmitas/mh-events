@@ -46,8 +46,6 @@
 - Secure payment integration via Stripe.
 - Optimized for fast loading and performance with Next.js.
 
-## Tech Stack
-
 
 ## <a name="getting-started">🤸 Getting Started</a>
 
