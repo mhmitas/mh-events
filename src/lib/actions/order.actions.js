@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Stripe from "stripe";
 import { connectDB } from "../database/mongoose";
 import { Order } from "../database/models/order.model";
+import mongoose from "mongoose";
 
 export async function checkoutOrder({ order }) {
     try {
@@ -64,6 +65,62 @@ export async function hasUserBookedTicket({ eventId, userId }) {
             buyer: userId,
         })
         return !!isBought;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function getOrdersByEvent({ eventId }) {
+    try {
+        await connectDB()
+
+        const orders = await Order.aggregate([
+            [
+                {
+                    $match: {
+                        event: new mongoose.Types.ObjectId(`${eventId}`),
+                    },
+                },
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "buyer",
+                        foreignField: "_id",
+                        as: "buyer",
+                    },
+                },
+                {
+                    $unwind: "$buyer",
+                },
+                {
+                    $lookup: {
+                        from: "events",
+                        localField: "event",
+                        foreignField: "_id",
+                        as: "event",
+                    },
+                },
+                {
+                    $unwind: "$event",
+                },
+                {
+                    $project: {
+                        eventId: "$event._id",
+                        eventTitle: "$event.title",
+                        totalAmount: 1,
+                        createdAt: 1,
+                        stripeId: 1,
+                        buyer: {
+                            id: "$buyer._id",
+                            email: "$buyer.email",
+                            name: "$buyer.name",
+                        },
+                    },
+                },
+            ]
+        ])
+
+        return { success: true, data: JSON.parse(JSON.stringify(orders)) };
     } catch (error) {
         throw error;
     }

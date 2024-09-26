@@ -46,7 +46,7 @@ const EventCard = async ({ event, ordersLink }) => {
                 </div>
                 <h1 className={`font-semibold text-foreground/80 line-clamp-1 p-4 pt-0 ${ordersLink && 'hidden'}`}>By : {organizer?.name}</h1>
 
-                {ordersLink && <Link href={`/events/${_id}/orders`} className={`text-blue-500 hover:underline line-clamp-1 p-4 pt-0 flex items-center gap-1 self-end`}>
+                {ordersLink && <Link href={`/events/${_id}/orders?title=${title}`} className={`text-blue-500 hover:underline line-clamp-1 p-4 pt-0 flex items-center gap-1 self-end`}>
                     <span>View Orders</span>
                     <ExternalLink className='size-4' />
                 </Link>

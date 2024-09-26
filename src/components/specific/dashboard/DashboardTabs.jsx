@@ -21,7 +21,7 @@ const DashboardTabs = () => {
     <>
       <div className='flex items-center gap-4 text-base sm:text-lg font-semibold border-b overflow-x-auto mb-6 mt-2'>
         <TabButton tab="my_events" name="Organized Events" currentTab={currentTab} handleRouter={handleRouter} />
-        <TabButton tab="my_tickets" name="Booked Tickets" currentTab={currentTab} handleRouter={handleRouter} />
+        <TabButton tab="my_tickets" name="My Booked Tickets" currentTab={currentTab} handleRouter={handleRouter} />
         {/* <TabButton tab="orders" name="Orders" currentTab={currentTab} handleRouter={handleRouter} /> */}
       </div>
     </>

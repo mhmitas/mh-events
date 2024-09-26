@@ -1,4 +1,5 @@
 import { clsx } from "clsx";
+import moment from "moment";
 import queryString from "query-string";
 import { twMerge } from "tailwind-merge"
 
@@ -40,4 +41,9 @@ export async function setPageNumberTo1(url) {
   console.log(url)
   const newUrl = url.replace(/page=\d+/i, "page=1")
   return newUrl
+}
+
+
+export function formatDate(date, format = "MMMM Do, YYYY") {
+  return moment(new Date(date)).format(format);
 }

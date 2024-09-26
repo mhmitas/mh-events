@@ -70,7 +70,7 @@ const EventDetails = async ({ params: { id } }) => {
                     </div>
                     <div>
                         <h3 className='text-xl font-bold mb-1'>Description</h3>
-                        <div>{description?.split('\n')?.map((n, i) => <p key={i}>{n}</p>)}</div>
+                        <div className='space-y-2'>{description?.split('\n')?.map((n, i) => <p key={i}>{n}</p>)}</div>
                     </div>
                     <p className='italic'>Posted: {moment(new Date(createdAt), "YYYYMMDD").fromNow()}</p>
                     <div>
