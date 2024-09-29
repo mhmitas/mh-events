@@ -17,13 +17,13 @@
 
 ## 📋 <a name="table">Table of Contents</a>
 
-1. 🤖 [Introduction](#introduction)
+1. 💁‍♂️ [Introduction](#introduction)
 2. ⚙️ [Tech Stack](#tech-stack)
-3. 🔋 [Features](#features)
-4. 🤸 [Quick Start](#getting-started)
+3. 😎 [Features](#features)
+4. 🚎 [Quick Start](#getting-started)
 5. 🔗 [Links](#links)
 
-## <a name="introduction">🤖 Introduction</a>
+## <a name="introduction">💁‍♂️ Introduction</a>
 **It's an event management app where users can quickly create an account and start using it.**<br/>
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
@@ -37,7 +37,7 @@
 8. Cloudinary
 9. Auth.js
 
-## <a name="features">🔋 Features</a>
+## <a name="features">😎 Features</a>
 
 - Simplified event organization process.
 - Effortless event booking with just a few clicks.
@@ -47,7 +47,7 @@
 - Optimized for fast loading and performance with Next.js.
 
 
-## <a name="getting-started">🤸 Getting Started</a>
+## <a name="getting-started">🚎 Getting Started</a>
 
 Clone the repository by running this command in your CLI
 ```bash
