@@ -18,7 +18,10 @@ export default async function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex-shrink-0">
                         <Link href="/" className="text-2xl font-bold text-primary">
-                            MH EVENTS
+                            <div className="w-max flex items-center gap-2">
+                                <img className="w-6 sm:w-8" src="/images/event_calendar.png" alt="logo" width={10} height={10} />
+                                <span className="text-xl md:text-2xl font-bold">MH EVENTS</span>
+                            </div>
                         </Link>
                     </div>
                     <div className="hidden md:block">

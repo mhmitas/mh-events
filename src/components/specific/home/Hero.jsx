@@ -7,8 +7,8 @@ import Link from "next/link"
 
 const images = [
     "https://i.ibb.co.com/0Y1tmwY/1.jpg",
+    "https://res.cloudinary.com/dquqygs9h/image/upload/v1727326433/eouoxqczy7khbmry1dv5.png",
     "https://i.ibb.co.com/t4xtJ2j/2.jpg",
-    "https://i.ibb.co.com/JC5JdLM/3.jpg",
 ]
 
 export default function Hero() {
@@ -44,7 +44,7 @@ export default function Hero() {
                             <Link href="/#event_section">Get Started</Link>
                         </Button>
                     </div>
-                    <div className="flex-1 w-full max-w-xl lg:max-w-none relative">
+                    <div className="flex-1 w-full md:max-w-3xl lg:max-w-none relative">
                         <div className="relative aspect-video overflow-hidden rounded-lg shadow-l">
                             {images.map((src, index) => (
                                 <Image

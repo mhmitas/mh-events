@@ -147,7 +147,7 @@ const EventForm = ({ formType, event, eventId, userId }) => {
                     <FormItem>
                         <FormLabel>Title</FormLabel>
                         <FormControl>
-                            <Textarea placeholder="Enter event title" {...field} type="text" className="focus-visible:ring-0 text-base" />
+                            <Textarea placeholder="Enter event title" {...field} type="text" className="focus-visible:ring-0 text-base" maxLength={100} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -162,7 +162,7 @@ const EventForm = ({ formType, event, eventId, userId }) => {
                     <FormItem className="w-full">
                         <FormLabel>Description</FormLabel>
                         <FormControl className="min-h-44 md:min-h-36">
-                            <Textarea placeholder="Describe your event" {...field} className="focus-visible:ring-0" />
+                            <Textarea placeholder="Describe your event" {...field} className="focus-visible:ring-0" maxLength={800} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>

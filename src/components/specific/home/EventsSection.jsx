@@ -15,7 +15,7 @@ const EventsSection = async ({ searchParams }) => {
     // fetch events data form server
     const { data: events, totalPages } = await getEvents({
         page: parseInt(page),
-        limit: 4,
+        limit: 8,
         query: search,
         category: category
     })
