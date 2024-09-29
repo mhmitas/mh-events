@@ -53,20 +53,21 @@ Clone the repository by running this command in your CLI
 ```bash
 git clone https://github.com/mhmitas/mh-events.git
 ```
+To implement authentication follow the [Auth.js](https://authjs.dev/) docs
 
 create a `.env.local` file in the root of the project, and fill in the below variables
 ```env
 MONGODB_URI=""
 
-GMAIL_ID=""
-GMAIL_APP_PASSWORD=""
+# GMAIL_ID=""
+# GMAIL_APP_PASSWORD=""
 
 APP_URL=
 
 # run `npx auth secret` to generate this variable
 AUTH_SECRET=""
 
-# Go to your Google account and create a app 
+# Go to your [Google devlopers console](https://console.cloud.google.com/) and create a app 
 AUTH_GOOGLE_ID=""
 AUTH_GOOGLE_SECRET=""
 
